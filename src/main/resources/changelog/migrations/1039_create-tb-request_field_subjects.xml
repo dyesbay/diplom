@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1039_create-tb-request_field_subjects.xml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet id="1039.0" author="vborovok">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="request_field_subjects" />
+			</not>
+		</preConditions>
+		<createTable tableName="request_field_subjects">
+			<column name="request_field" type="bigint">
+				<constraints primaryKey="true" foreignKeyName="fk_request_field" references="request_fields(id)"/>
+			</column>
+			<column name="subject" type="bigint">
+				<constraints primaryKey="true" foreignKeyName="fk_subject" references="subjects(id)"/>
+			</column>
+			<column name="disabled_on" type="timestamp">
+				<constraints nullable="true"/>
+			</column>
+			<column name="required" type="boolean">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<rollback>
+			<dropTable tableName="request_field_subjects" />
+		</rollback>
+	</changeSet>
+
+	<!--Консультация по услугам Росреестра-->
+	<changeSet id="1039.1" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=1 AND request_field=1</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">1</column>
+			<column name="request_field">1</column>
+			<column name="required">true</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.2" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=1 AND request_field=2</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">1</column>
+			<column name="request_field">2</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.3" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=1 AND request_field=3</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">1</column>
+			<column name="request_field">3</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.4" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=1 AND request_field=4</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">1</column>
+			<column name="request_field">4</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.5" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=1 AND request_field=5</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">1</column>
+			<column name="request_field">5</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<!--В соответствии с пп. 2.5.2, 2.5.4 Регламента-->
+	<changeSet id="1039.6" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=25 AND request_field=23</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">25</column>
+			<column name="request_field">23</column>
+			<column name="required">true</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.7" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=25 AND request_field=24</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">25</column>
+			<column name="request_field">24</column>
+			<column name="required">true</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.8" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=25 AND request_field=25</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">25</column>
+			<column name="request_field">25</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.9" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=25 AND request_field=26</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">25</column>
+			<column name="request_field">26</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.10" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=25 AND request_field=27</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">25</column>
+			<column name="request_field">27</column>
+			<column name="required">true</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.11" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=25 AND request_field=28</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">25</column>
+			<column name="request_field">28</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.12" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=25 AND request_field=29</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">25</column>
+			<column name="request_field">29</column>
+			<column name="required">true</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.13" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=25 AND request_field=30</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">25</column>
+			<column name="request_field">30</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<!--В соответствии с п. 2.4.5 Регламента (на действия сотрудников ВЦТО)-->
+	<changeSet id="1039.14" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=26 AND request_field=31</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">26</column>
+			<column name="request_field">31</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.15" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=26 AND request_field=32</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">26</column>
+			<column name="request_field">32</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.16" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=26 AND request_field=33</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">26</column>
+			<column name="request_field">33</column>
+			<column name="required">true</column>
+		</insert>
+	</changeSet>
+
+	<!--Реквизиты жалоб/обращений-->
+	<changeSet id="1039.22" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=27 AND request_field=34</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">27</column>
+			<column name="request_field">34</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.23" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=27 AND request_field=35</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">27</column>
+			<column name="request_field">35</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.24" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=27 AND request_field=36</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">27</column>
+			<column name="request_field">36</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.25" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=27 AND request_field=37</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">27</column>
+			<column name="request_field">37</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.26" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=27 AND request_field=38</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">27</column>
+			<column name="request_field">38</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.27" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=27 AND request_field=39</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">27</column>
+			<column name="request_field">39</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.28" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=27 AND request_field=40</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">27</column>
+			<column name="request_field">40</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.29" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=27 AND request_field=41</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">27</column>
+			<column name="request_field">41</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.30" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=27 AND request_field=42</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">27</column>
+			<column name="request_field">42</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.31" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=27 AND request_field=43</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">27</column>
+			<column name="request_field">43</column>
+			<column name="required">true</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.33" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=27 AND request_field=44</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">27</column>
+			<column name="request_field">44</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<!-- Государственный кадастровый учет-->
+	<changeSet id="1039.35" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=2 AND request_field=45</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">2</column>
+			<column name="request_field">45</column>
+			<column name="required">true</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.36" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=2 AND request_field=46</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">2</column>
+			<column name="request_field">46</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.37" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=2 AND request_field=47</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">2</column>
+			<column name="request_field">47</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.38" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=2 AND request_field=48</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">2</column>
+			<column name="request_field">48</column>
+			<column name="required">false</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1039.39" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_field_subjects WHERE subject=2 AND request_field=49</sqlCheck>
+		</preConditions>
+		<insert tableName="request_field_subjects">
+			<column name="subject">2</column>
+			<column name="request_field">49</column>
+			<column name="required">true</column>
+		</insert>
+	</changeSet>
+
+</databaseChangeLog>

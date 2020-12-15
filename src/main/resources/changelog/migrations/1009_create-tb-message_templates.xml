@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1009_create-tb-message_templates.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1009.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="message_templates"/>
+            </not>
+        </preConditions>
+        <createTable tableName="message_templates">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="subject" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="body" type="varchar(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="signature" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_signature" references="message_signatures(id)"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="message_templates"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

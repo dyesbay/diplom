@@ -1,0 +1,13 @@
+build/
+.gradle/
+.idea/
+out/
+*.iml
+\.DS_Store
+/bin/
+.classpath
+.project
+org.*
+docker/image/*.tar
+docker/*.env
+docker-compose.yml

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1038_create-tb-sub_subjects.xml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet id="1038.0" author="vborovok">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="sub_subjects" />
+			</not>
+		</preConditions>
+		<createTable tableName="sub_subjects">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="description" type="varchar(100)">
+				<constraints nullable="true" />
+			</column>
+			<column name="subject" type="bigint">
+				<constraints nullable="false"
+					foreignKeyName="fk_section" references="subjects(id)" />
+			</column>
+			<column name="max_execution_time" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="disabled_on" type="timestamp">
+			    <constraints nullable= "true"/>
+			</column>
+		</createTable>
+		<rollback>
+			<dropTable tableName="sub_subjects" />
+		</rollback>
+	</changeSet>
+
+	<!--Тема:Проблемы с получением документов-->
+	<changeSet id="1038.1" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM sub_subjects WHERE name='Документы готовы, но не получены'</sqlCheck>
+		</preConditions>
+		<insert tableName="sub_subjects">
+			<column name="subject">6</column>
+			<column name="name">Документы готовы, но не получены</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1038.2" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM sub_subjects WHERE name='Проблемы при скачивании/открытии документов'</sqlCheck>
+		</preConditions>
+		<insert tableName="sub_subjects">
+			<column name="subject">6</column>
+			<column name="name">Проблемы при скачивании/открытии документов</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1038.3" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM sub_subjects WHERE name='Портальная заявка не выполнена в установленный срок'</sqlCheck>
+		</preConditions>
+		<insert tableName="sub_subjects">
+			<column name="subject">6</column>
+			<column name="name">Портальная заявка не выполнена в установленный срок</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+</databaseChangeLog>

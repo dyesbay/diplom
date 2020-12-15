@@ -1,0 +1,1054 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1016_create-tb-status.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1017.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="status"/>
+            </not>
+        </preConditions>
+        <createTable tableName="status">
+            <column name="code" type="varchar(10)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expired_days_num" type="bigint" defaultValue="0">
+                <constraints nullable="true"/>
+            </column>
+            <column name="expired_status" type="varchar(10)" defaultValue="0">
+                <constraints nullable="true"/>
+            </column>
+            <column name="life_span" type="bigint" defaultValue="0">
+                <constraints nullable="true"/>
+            </column>
+            <column name="life_span_status" type="varchar(10)" defaultValue="0">
+                <constraints nullable="true"/>
+            </column>
+            <column name="route_type" type="varchar(50)">
+                <constraints nullable="false" foreignKeyName="fk_route_type" references="route_types(code)"/>
+            </column>
+            <column name="description" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="disabled_on" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="status"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="1017.1" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '101'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '102'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '103'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '104'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '105'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '106'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '107'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '108'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '109'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '110'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '111'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '112'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '113'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '171'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '175'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '179'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '180'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '191'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '193'</sqlCheck>
+
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '201'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '202'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '203'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '204'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '205'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '207'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '208'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '210'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '211'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '212'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '214'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '215'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '216'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '225'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '271'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '275'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '279'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '291'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '292'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '293'</sqlCheck>
+
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '301'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '302'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '303'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '305'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '306'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '308'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '371'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '375'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '379'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '391'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '392'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '393'</sqlCheck>
+
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '401'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '402'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '403'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '405'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '406'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '408'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '471'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '475'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '479'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '491'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '492'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '493'</sqlCheck>
+
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '501'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '502'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '503'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '505'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '506'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '510'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '511'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '514'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '571'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '572'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '572'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '575'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '576'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '579'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '591'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '592'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '593'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '594'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '595'</sqlCheck>
+        </preConditions>
+
+
+        <insert tableName="status">
+            <column name="code" value="101"/>
+            <column name="name" value="Регистрация запроса по телефону"/>
+            <column name="state" value="PENDING"/>
+            <column name="route_type" value="100"/>
+            <column name="expired_days_num" value="2"/>
+            <column name="expired_status" value="191"/>
+            <column name="life_span" value="8"/>
+            <column name="life_span_status" value="193"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="102"/>
+            <column name="name" value="Регистрация запроса по электронной почте"/>
+            <column name="state" value="PENDING"/>
+            <column name="route_type" value="100"/>
+            <column name="expired_days_num" value="2"/>
+            <column name="expired_status" value="191"/>
+            <column name="life_span" value="8"/>
+            <column name="life_span_status" value="193"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="103"/>
+            <column name="name" value="Запрос назначен специалисту ОООЗ"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="100"/>
+            <column name="expired_status" value="191"/>
+            <column name="life_span_status" value="193"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="104"/>
+            <column name="name" value="Запрос переназначен на другого специалиста ОООЗ"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="100"/>
+            <column name="expired_status" value="191"/>
+            <column name="life_span_status" value="193"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="105"/>
+            <column name="name" value="Возврат в ОИО на доработку"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="100"/>
+            <column name="expired_status" value="191"/>
+            <column name="life_span_status" value="193"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="106"/>
+            <column name="name" value="Возврат из ОИО после доработки"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="100"/>
+            <column name="expired_status" value="191"/>
+            <column name="life_span_status" value="193"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="107"/>
+            <column name="name" value="Переназначение на другую площадку ВЦТО"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="100"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="110"/>
+            <column name="name" value="Закрытие запроса после предоставления ответа"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="100"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="111"/>
+            <column name="name" value="Закрытие запроса по решению сотрудника ОООЗ"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="100"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="112"/>
+            <column name="name" value="Закрытие запроса по сроку давности"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="100"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="113"/>
+            <column name="name" value="Закрыт и направлен в ТО"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="100"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="171"/>
+            <column name="name" value="Предоставлен ответ заявителю по телефону"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="100"/>
+            <column name="life_span_status" value="193"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="175"/>
+            <column name="name" value="Предоставлен ответ заявителю по электронной почте"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="100"/>
+            <column name="life_span_status" value="193"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="179"/>
+            <column name="name" value="Отправленное электронное письмо не доставлено"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="100"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="180"/>
+            <column name="name" value="Изменение изначальных реквизитов запроса"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="100"/>
+            <column name="expired_status" value="191"/>
+            <column name="life_span_status" value="193"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="191"/>
+            <column name="name" value="Превышен срок обработки запроса 'Самостоятельно'"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="100"/>
+            <column name="life_span_status" value="193"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="193"/>
+            <column name="name" value="Превышен максимальный срок обработки запроса"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="100"/>
+        </insert>
+
+
+        <insert tableName="status">
+            <column name="code" value="201"/>
+            <column name="name" value="Запрос размещен в ЕСРОО"/>
+            <column name="state" value="PENDING"/>
+            <column name="route_type" value="200"/>
+            <column name="expired_days_num" value="2"/>
+            <column name="expired_status" value="291"/>
+            <column name="life_span" value="8"/>
+            <column name="life_span_status" value="293"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="202"/>
+            <column name="name" value="ЕСРОО Назначен исполнителю"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="200"/>
+            <column name="expired_status" value="291"/>
+            <column name="life_span_status" value="293"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="203"/>
+            <column name="name" value="ЕСРОО Требует уточнения"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="200"/>
+            <column name="expired_status" value="291"/>
+            <column name="life_span_status" value="293"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="204"/>
+            <column name="name" value="ЕСРОО Отклонен исполнителем"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="200"/>
+            <column name="expired_status" value="291"/>
+            <column name="life_span_status" value="293"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="205"/>
+            <column name="name" value="Получен ответ от ЕСРОО"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="200"/>
+            <column name="expired_status" value="291"/>
+            <column name="life_span_status" value="293"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="207"/>
+            <column name="name" value="Закрытие запроса после предоставления ответа"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="200"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="208"/>
+            <column name="name" value="Нет связи ответа с запросом"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="200"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="210"/>
+            <column name="name" value="Повторный запрос в ЕСРОО"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="200"/>
+            <column name="expired_status" value="291"/>
+            <column name="life_span_status" value="293"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="211"/>
+            <column name="name" value="Закрытие запроса по решению сотрудника ОООЗ"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="200"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="212"/>
+            <column name="name" value="Закрытие запроса по сроку давности"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="200"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="214"/>
+            <column name="name" value="Закрытие инцидента в ЕСРОО"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="200"/>
+            <column name="expired_status" value="291"/>
+            <column name="life_span_status" value="293"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="215"/>
+            <column name="name" value="Поступило уведомление из ЕСРОО на закрытый запрос"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="200"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="216"/>
+            <column name="name" value="Отправка предупредительного письма в ТО/ПО/ЦА РР/ФГБУ"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="200"/>
+            <column name="expired_status" value="291"/>
+            <column name="life_span_status" value="293"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="225"/>
+            <column name="name" value="Подтвержденный ответ"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="200"/>
+            <column name="expired_days_num" value="1"/>
+            <column name="expired_status" value="291"/>
+            <column name="life_span_status" value="293"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="271"/>
+            <column name="name" value="Предоставлен ответ заявителю по телефону"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="200"/>
+            <column name="life_span_status" value="293"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="275"/>
+            <column name="name" value="Предоставлен ответ заявителю по электронной почте"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="200"/>
+            <column name="life_span_status" value="293"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="279"/>
+            <column name="name" value="Отправленное электронное письмо не доставлено"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="200"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="291"/>
+            <column name="name" value="Превышен срок обработки запроса в ЕСРОО"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="200"/>
+            <column name="life_span_status" value="293"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="292"/>
+            <column name="name" value="Превышен срок ответа заявителю после получения ответа из ЕСРОО"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="200"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="293"/>
+            <column name="name" value="Превышен максимальный срок обработки запроса"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="200"/>
+        </insert>
+
+
+        <insert tableName="status">
+            <column name="code" value="301"/>
+            <column name="name" value="Направлен запрос в ТО/ПО/ЦА РР/ФГБУ"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="300"/>
+            <column name="expired_days_num" value="2"/>
+            <column name="expired_status" value="391"/>
+            <column name="life_span" value="8"/>
+            <column name="life_span_status" value="393"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="302"/>
+            <column name="name" value="Получен ответ из ТО/ПО/ЦА РР/ФГБУ"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="300"/>
+            <column name="expired_days_num" value="2"/>
+            <column name="expired_status" value="391"/>
+            <column name="life_span_status" value="393"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="303"/>
+            <column name="name" value="Повторный запрос в ТО/ПО/ЦА РР/ФГБУ"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="300"/>
+            <column name="expired_status" value="391"/>
+            <column name="life_span_status" value="393"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="305"/>
+            <column name="name" value="Закрытие запроса после предоставления ответа"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="300"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="306"/>
+            <column name="name" value="Закрытие запроса по сроку давности"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="300"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="308"/>
+            <column name="name" value="Закрытие запроса по решению сотрудника ОООЗ"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="300"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="371"/>
+            <column name="name" value="Предоставлен ответ заявителю по телефону"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="300"/>
+            <column name="life_span_status" value="393"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="375"/>
+            <column name="name" value="Предоставлен ответ заявителю по электронной почте"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="300"/>
+            <column name="life_span_status" value="393"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="379"/>
+            <column name="name" value="Отправленное электронное письмо не доставлено"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="300"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="391"/>
+            <column name="name" value="Превышен срок обработки запроса в ТО/ПО/ЦА РР/ФГБУ"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="300"/>
+            <column name="life_span_status" value="393"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="392"/>
+            <column name="name" value="Превышен срок ответа заявителю после получения ответа из ТО/ПО/ЦАРР/ФГБУ"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="300"/>
+            <column name="life_span_status" value="393"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="393"/>
+            <column name="name" value="Превышен максимальный срок обработки запроса"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="300"/>
+        </insert>
+
+
+        <insert tableName="status">
+            <column name="code" value="401"/>
+            <column name="name" value="Направлена жалоба в ТО/ПО/ЦА РР/ФГБУ"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="400"/>
+            <column name="expired_days_num" value="3"/>
+            <column name="expired_status" value="491"/>
+            <column name="life_span" value="8"/>
+            <column name="life_span_status" value="493"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="402"/>
+            <column name="name" value="Получены сведения о регистрации жалобы"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="400"/>
+            <column name="expired_days_num" value="1"/>
+            <column name="expired_status" value="491"/>
+            <column name="life_span_status" value="493"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="403"/>
+            <column name="name" value="Повторный запрос в ТО/ПО/ЦА РР/ФГБУ"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="400"/>
+            <column name="expired_status" value="491"/>
+            <column name="life_span_status" value="493"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="405"/>
+            <column name="name" value="Закрытие запроса после предоставления ответа"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="400"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="406"/>
+            <column name="name" value="Закрытие запроса по сроку давности"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="400"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="408"/>
+            <column name="name" value="Закрытие запроса по решению сотрудника ОООЗ"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="400"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="471"/>
+            <column name="name" value="Предоставлен ответ заявителю по телефону"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="400"/>
+            <column name="life_span_status" value="493"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="475"/>
+            <column name="name" value="Предоставлен ответ заявителю по электронной почте"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="400"/>
+            <column name="life_span_status" value="493"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="479"/>
+            <column name="name" value="Отправленное электронное письмо не доставлено"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="400"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="491"/>
+            <column name="name" value="Превышен срок обработки запроса в ТО/ПО/ЦА РР/ФГБУ"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="400"/>
+            <column name="life_span_status" value="493"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="492"/>
+            <column name="name" value="Превышен срок ответа заявителю после получения ответа на жалобу"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="400"/>
+            <column name="life_span_status" value="493"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="493"/>
+            <column name="name" value="Превышен максимальный срок обработки запроса"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="400"/>
+        </insert>
+
+
+        <insert tableName="status">
+            <column name="code" value="501"/>
+            <column name="name" value="Направлена жалоба в ТО/ПО/ЦА РР/ФГБУ"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="500"/>
+            <column name="expired_days_num" value="3"/>
+            <column name="expired_status" value="591"/>
+            <column name="life_span" value="33"/>
+            <column name="life_span_status" value="595"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="502"/>
+            <column name="name" value="Получены сведения о регистрации жалобы"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="500"/>
+            <column name="expired_days_num" value="1"/>
+            <column name="expired_status" value="591"/>
+            <column name="life_span_status" value="595"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="503"/>
+            <column name="name" value="Повторный запрос информации о регистрации"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="500"/>
+            <column name="expired_status" value="591"/>
+            <column name="life_span_status" value="595"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="505"/>
+            <column name="name" value="Получен ответ на жалобу из ТО/ПО/ЦА РР/ФГБУ"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="500"/>
+            <column name="expired_status" value="594"/>
+            <column name="life_span_status" value="595"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="506"/>
+            <column name="name" value="Повторный запрос ответа на жалобу"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="500"/>
+            <column name="expired_status" value="592"/>
+            <column name="life_span_status" value="595"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="510"/>
+            <column name="name" value="Закрытие запроса после предоставления ответа"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="500"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="511"/>
+            <column name="name" value="Закрытие запроса по сроку давности"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="500"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="514"/>
+            <column name="name" value="Закрытие запроса по решению сотрудника ОООЗ"/>
+            <column name="state" value="CLOSED"/>
+            <column name="route_type" value="500"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="571"/>
+            <column name="name" value="Информирование заявителя о рассмотрении жалобы по телефону"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="500"/>
+            <column name="expired_days_num" value="15"/>
+            <column name="expired_status" value="592"/>
+            <column name="life_span_status" value="595"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="572"/>
+            <column name="name" value="Предоставлен ответ на жалобу заявителю по телефону"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="500"/>
+            <column name="life_span_status" value="595"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="575"/>
+            <column name="name" value="Информирование заявителя о рассмотрении жалобы по электронной почте"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="500"/>
+            <column name="expired_status" value="592"/>
+            <column name="life_span_status" value="595"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="576"/>
+            <column name="name" value="Предоставлен ответ на жалобу заявителю по электронной почте"/>
+            <column name="state" value="EXTERNAL_SERVICE"/>
+            <column name="route_type" value="500"/>
+            <column name="life_span_status" value="595"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="579"/>
+            <column name="name" value="Отправленное электронное письмо не доставлено"/>
+            <column name="state" value="IN_PROCESSING"/>
+            <column name="route_type" value="500"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="591"/>
+            <column name="name" value="Превышен срок регистрации жалобы в ТО/ПО/ЦА РР/ФГБУ"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="500"/>
+            <column name="life_span_status" value="595"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="592"/>
+            <column name="name" value="Превышен срок на ответ по жалобе в ТО/ПО/ЦА РР/ФГБУ"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="500"/>
+            <column name="life_span_status" value="595"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="593"/>
+            <column name="name" value="Превышен срок ответа заявителю после регистрации жалобы"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="500"/>
+            <column name="life_span_status" value="595"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="594"/>
+            <column name="name" value="Превышен срок ответа заявителю после получения ответа на жалобу"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="500"/>
+            <column name="life_span_status" value="595"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="595"/>
+            <column name="name" value="Превышен максимальный срок обработки запроса"/>
+            <column name="state" value="EXPIRED"/>
+            <column name="route_type" value="500"/>
+        </insert>
+
+        <rollback>
+            <dropTable tableName="status"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1017.2" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="status" columnName="color"/>
+            </not>
+        </preConditions>
+        <sql>
+            ALTER TABLE status ADD COLUMN color varchar(10) null;
+        </sql>
+    </changeSet>
+    
+    <changeSet id="1017.3" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '0'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '114'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '213'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '309'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '409'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM status WHERE code = '515'</sqlCheck>
+        </preConditions>
+        <insert tableName="status">
+            <column name="code" value="0"/>
+            <column name="route_type" value="0"/>
+            <column name="name" value="Закрыт по причине дублирования запроса"/>
+            <column name="state" value="CLOSED"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="114"/>
+            <column name="route_type" value="100"/>
+            <column name="name" value="Закрытие запроса по сроку давности, не получено уточнение от заявителя"/>
+            <column name="state" value="CLOSED"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="213"/>
+            <column name="route_type" value="200"/>
+            <column name="name" value="Закрытие запроса по сроку давности, не получено уточнение от заявителя"/>
+            <column name="state" value="CLOSED"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="309"/>
+            <column name="route_type" value="300"/>
+            <column name="name" value="Закрытие запроса по сроку давности, не получено уточнение от заявителя"/>
+            <column name="state" value="CLOSED"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="409"/>
+            <column name="route_type" value="400"/>
+            <column name="name" value="Закрытие запроса по сроку давности, не получено уточнение от заявителя"/>
+            <column name="state" value="CLOSED"/>
+        </insert>
+        <insert tableName="status">
+            <column name="code" value="515"/>
+            <column name="route_type" value="500"/>
+            <column name="name" value="Закрытие запроса по сроку давности, не получено уточнение от заявителя"/>
+            <column name="state" value="CLOSED"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1017.4" author="ustinov">
+
+        <!-- Самостоятельная обработка -->
+        <update tableName="status">
+            <column name="color">e0fecc</column>
+            <where>
+                route_type='100'
+            </where>
+        </update>
+
+        <!--Направлен в ЕСРОО -->
+        <update tableName="status">
+            <column name="color">ccf2fb</column>
+            <where>
+                route_type='200'
+            </where>
+        </update>
+
+        <!-- Направлен в ЦА/ТО/ПАО-->
+        <update tableName="status">
+            <column name="color">caeff8</column>
+            <where>
+                route_type='300'
+            </where>
+        </update>
+
+        <!-- Жалоба 2.4.4(регистрация)-->
+        <update tableName="status">
+            <column name="color">f1d7be</column>
+            <where>
+                route_type='500'
+            </where>
+        </update>
+
+        <!-- Жалоба 2.4.4(ответ)-->
+        <update tableName="status">
+            <column name="color">f1d7be</column>
+            <where>
+                route_type='500' and code='404'
+            </where>
+        </update>
+
+        <!-- Жалоба 2.4.2-->
+        <update tableName="status">
+            <column name="color">f1d7be</column>
+            <where>
+                route_type='400'
+            </where>
+        </update>
+
+        <!-- Запрос закрыт-->
+        <update tableName="status">
+            <column name="color">ffffff</column>
+            <where>
+                code='110'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">ffffff</column>
+            <where>
+                code='111'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">ffffff</column>
+            <where>
+                code='204'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">ffffff</column>
+            <where>
+                code='207'
+            </where>
+        </update>
+
+        <update tableName="status">
+            <column name="color">ffffff</column>
+            <where>
+                code='208'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">ffffff</column>
+            <where>
+                code='211'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">ffffff</column>
+            <where>
+                code='214'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">ffffff</column>
+            <where>
+                code='305'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">ffffff</column>
+            <where>
+                code='308'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">ffffff</column>
+            <where>
+                code='405'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">ffffff</column>
+            <where>
+                code='408'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">ffffff</column>
+            <where>
+                code='510'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">ffffff</column>
+            <where>
+                code='514'
+            </where>
+        </update>
+
+        <!-- Превышен срок обработки-->
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='511'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='406'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='306'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='212'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='112'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='191'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='193'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='291'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='292'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='293'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='391'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='392'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='393'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='595'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='591'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='592'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='593'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='594'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='491'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='492'
+            </where>
+        </update>
+        <update tableName="status">
+            <column name="color">fcd8d8</column>
+            <where>
+                code='493'
+            </where>
+        </update>
+
+        <!-- Исполнитель не назначен -->
+        <update tableName="status">
+            <column name="color">e4e4e4</column>
+            <where>
+                code='101'
+            </where>
+        </update>
+
+        <update tableName="status">
+            <column name="color">e4e4e4</column>
+            <where>
+                code='102'
+            </where>
+        </update>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="2032_create-tb-integrations_configs.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="2032.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="integrations_configs"/>
+            </not>
+        </preConditions>
+        <createTable tableName="integrations_configs">
+            <column name="code" type="varchar(20)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="server" type="varchar(25)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="port" type="varchar(10)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="username" type="varchar(30)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="key" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="service_name" type="varchar(25)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="integrations_configs"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2032.1" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM integrations_configs WHERE code = 'EMAIL_SERVER'</sqlCheck>
+        </preConditions>
+        <insert tableName="integrations_configs">
+            <column name="code" value="EMAIL_SERVER"/>
+            <column name="server" value="smtp.gmail.com"/>
+            <column name="port" value="587"/>
+            <column name="username" value="expert.smtp.server@gmail.com"/>
+            <column name="key" value="N5PrTR3Yet54ULF"/>
+            <column name="service_name" value="SMTP Google"/>
+        </insert>
+        <rollback>
+            <delete tableName="integrations_configs">
+                <where>code = 'EMAIL_SERVER'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

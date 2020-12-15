@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="2025_create-tb-letters.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="2025.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="letters"/>
+            </not>
+        </preConditions>
+        <createTable tableName="letters">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="sender" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_sender" references="managers(id)"/>
+            </column>
+            <column name="receiver" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_receiver" references="clients(id)"/>
+            </column>
+            <column name="subject" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="body" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="attachments" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="signature" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="request" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_request" references="requests(id)"/>
+            </column>
+            <column name="type" type="varchar(30)">
+                <constraints nullable="true" foreignKeyName="fk_type" references="mail_type(code)"/>
+            </column>
+            <column name="sent_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="letters"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2025.3" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="letters"/>
+        </preConditions>
+        <sql>
+            drop table letters;
+        </sql>
+        <createTable tableName="letters">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="sender" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_sender" references="managers(id)"/>
+            </column>
+            <column name="receiver" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_receiver" references="clients(id)"/>
+            </column>
+            <column name="subject" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="body" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="attachments" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="signature" type="varchar(250)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="request" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_request" references="requests(id)"/>
+            </column>
+            <column name="type" type="varchar(30)">
+                <constraints nullable="true" foreignKeyName="fk_type" references="mail_type(code)"/>
+            </column>
+            <column name="sent_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="letters"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2025.4" author="ustinov">
+        <sql>
+            alter table letters DROP COLUMN attachments;
+        </sql>
+    </changeSet>
+
+    <changeSet id="2025.5" author="ustinov">
+        <sql>
+            alter table letters DROP COLUMN receiver;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

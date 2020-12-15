@@ -1,0 +1,930 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1001_create-tb-regions.xml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet id="1001.0" author="dyesbay">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="regions" />
+			</not>
+		</preConditions>
+		<createTable tableName="regions">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="disabled_on" type="timestamp">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+		<rollback>
+			<dropTable tableName="regions" />
+		</rollback>
+	</changeSet>
+
+	<!-- Инициализация регионов в базе данных согласно ТЗ Эксперт 3 v1.46 стр.65-66 -->
+	<!-- Области, принадлежащие центру обработки «Курск» -->
+	<!-- Южный ФО -->
+	<changeSet id="1004.1" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 1 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">1</column>
+			<column name="name">Республика Адыгея</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.2" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 30 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">30</column>
+			<column name="name">Астраханская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.3" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 34 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">34</column>
+			<column name="name">Волгоградская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.4" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 8 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">8</column>
+			<column name="name">Республика Калмыкия</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.5" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 23 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">23</column>
+			<column name="name">Краснодарский край</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.6" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 61 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">61</column>
+			<column name="name">Ростовская обл.</column>
+		</insert>
+	</changeSet>
+
+	<!-- Северо-Западный ФО -->
+	<changeSet id="1004.7" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 29 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">29</column>
+			<column name="name">Архангельская обл. и Ненецкий АО</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.8" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 78 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">78</column>
+			<column name="name">г. Санкт-Петербург</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.9" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 35 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">35</column>
+			<column name="name">Вологодская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.10" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 10 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">10</column>
+			<column name="name">Республика Карелия</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.11" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 11 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">11</column>
+			<column name="name">Республика Коми</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.12" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 47 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">47</column>
+			<column name="name">Ленинградская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.13" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 51 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">51</column>
+			<column name="name">Мурманская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.14" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 53 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">53</column>
+			<column name="name">Новгородская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.15" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 39 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">39</column>
+			<column name="name">Калининградская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.16" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 60 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">60</column>
+			<column name="name">Псковская обл.</column>
+		</insert>
+	</changeSet>
+
+	<!-- Северо-Кавказский ФО -->
+	<changeSet id="1004.17" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 7 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">7</column>
+			<column name="name">Кабардино-Балкарская Республика</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.18" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 5 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">5</column>
+			<column name="name">Республика Дагестан</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.19" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 6 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">6</column>
+			<column name="name">Республика Ингушетия</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.20" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 9 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">9</column>
+			<column name="name">Карачаево-Черкесская Республика</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.21" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 15 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">15</column>
+			<column name="name">Республика Северная Осетия - Алания</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.22" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 26 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">26</column>
+			<column name="name">Ставропольский край</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.23" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 20 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">20</column>
+			<column name="name">Чеченская Республика</column>
+		</insert>
+	</changeSet>
+
+	<!-- Центральный ФО -->
+	<changeSet id="1004.24" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 31 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">31</column>
+			<column name="name">Белгородская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.25" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 32 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">32</column>
+			<column name="name">Брянская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.26" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 33 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">33</column>
+			<column name="name">Владимирская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.27" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 36 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">36</column>
+			<column name="name">Воронежская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.28" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 37 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">37</column>
+			<column name="name">Ивановская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.29" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 40 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">40</column>
+			<column name="name">Калужская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.30" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 44 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">44</column>
+			<column name="name">Костромская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.31" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 46 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">46</column>
+			<column name="name">Курская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.32" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 48 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">48</column>
+			<column name="name">Липецкая обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.33" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 57 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">57</column>
+			<column name="name">Орловская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.34" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 62 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">62</column>
+			<column name="name">Рязанская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.35" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 67 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">67</column>
+			<column name="name">Смоленская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.36" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 68 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">68</column>
+			<column name="name">Тамбовская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.37" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 69 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">69</column>
+			<column name="name">Тверская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.38" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 71 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">71</column>
+			<column name="name">Тульская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.39" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 76 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">76</column>
+			<column name="name">Ярославская обл.</column>
+		</insert>
+	</changeSet>
+
+	<!-- Области, принадлежащие центру обработки «Курск» -->
+	<!-- Дальневосточный ФО -->
+	<changeSet id="1004.40" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 3 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">3</column>
+			<column name="name">Республика Бурятия</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.41" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 14 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">14</column>
+			<column name="name">Республика Саха(Якутия)</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.42" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 25 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">25</column>
+			<column name="name">Приморский край</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.43" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 27 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">27</column>
+			<column name="name">Хабаровский край</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.44" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 28 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">28</column>
+			<column name="name">Амурская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.45" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 41 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">41</column>
+			<column name="name">Камчатский край</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.46" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 49 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">49</column>
+			<column name="name">Магаданская обл. и Чукотский АО</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.47" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 65 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">65</column>
+			<column name="name">Сахалинская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.48" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 75 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">75</column>
+			<column name="name">Забайкальский край</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.49" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 79 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">79</column>
+			<column name="name">Еврейская автономная обл.</column>
+		</insert>
+	</changeSet>
+
+	<!-- Приволжский ФО -->
+	<changeSet id="1004.50" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 2 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">2</column>
+			<column name="name">Республика Башкортостан</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.51" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 16 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">16</column>
+			<column name="name">Республика Татарстан</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.52" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 13 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">13</column>
+			<column name="name">Республика Мордовия</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.53" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 12 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">12</column>
+			<column name="name">Республика Марий Эл</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.54" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 21 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">21</column>
+			<column name="name">Чувашская Республика - Чувашия</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.55" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 43 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">43</column>
+			<column name="name">Кировская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.56" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 52 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">52</column>
+			<column name="name">Нижегородская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.57" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 56 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">56</column>
+			<column name="name">Оренбургская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.58" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 58 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">58</column>
+			<column name="name">Пензенская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.59" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 59 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">59</column>
+			<column name="name">Пермский край</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.60" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 63 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">63</column>
+			<column name="name">Самарская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.61" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 64 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">64</column>
+			<column name="name">Саратовская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.62" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 18 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">18</column>
+			<column name="name">Удмуртская Республика</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.63" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 73 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">73</column>
+			<column name="name">Ульяновская обл.</column>
+		</insert>
+	</changeSet>
+
+	<!-- Сибирский ФО -->
+	<changeSet id="1004.64" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 4 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">4</column>
+			<column name="name">Республика Алтай</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.65" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 17 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">17</column>
+			<column name="name">Республика Тыва</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.66" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 19 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">19</column>
+			<column name="name">Республика Хакасия</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.67" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 22 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">22</column>
+			<column name="name">Алтайский край</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.68" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 38 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">38</column>
+			<column name="name">Иркутская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.69" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 42 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">42</column>
+			<column name="name">Кемеровская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.70" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 54 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">54</column>
+			<column name="name">Новосибирская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.71" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 55 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">55</column>
+			<column name="name">Омская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.72" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 70 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">70</column>
+			<column name="name">Томская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.81" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 24 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">24</column>
+			<column name="name">Красноярский край</column>
+		</insert>
+	</changeSet>
+
+	<!-- Центральный ФО -->
+	<changeSet id="1004.73" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 77 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">77</column>
+			<column name="name">г. Москва</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.74" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 50 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">50</column>
+			<column name="name">Московская обл.</column>
+		</insert>
+	</changeSet>
+
+	<!-- Уральский ФО -->
+	<changeSet id="1004.75" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 45 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">45</column>
+			<column name="name">Курганская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.76" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 72 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">72</column>
+			<column name="name">Тюменская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.77" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 74 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">74</column>
+			<column name="name">Челябинская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.78" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 89 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">89</column>
+			<column name="name">Ямало-Ненецкий АО</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.79" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 66 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">66</column>
+			<column name="name">Свердловская обл.</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1004.80" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM regions WHERE
+				id = 86 </sqlCheck>
+		</preConditions>
+		<insert tableName="regions">
+			<column name="id">86</column>
+			<column name="name">Ханты-Мансийский АО - Югра</column>
+		</insert>
+	</changeSet>
+</databaseChangeLog>

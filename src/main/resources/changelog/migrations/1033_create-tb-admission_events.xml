@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1033_create-tb-admission_events.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1033.0" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="admission_events"/>
+            </not>
+        </preConditions>
+        <createTable tableName="admission_events">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="type" type="varchar(40)">
+                <constraints nullable="false" foreignKeyName="fk_admission_type" references="admission_event_types(code)"/>
+            </column>
+            <column name="body" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="initiator" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_manager" references="managers(id)"/>
+            </column>
+            <column name="admission" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_admission" references="admissions(id)"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="admission_events"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

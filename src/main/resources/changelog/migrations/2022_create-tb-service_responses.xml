@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="2022_create-tb-service_responses.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1022.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="service_responses"/>
+            </not>
+        </preConditions>
+        <createTable tableName="service_responses">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="request" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_request" references="requests(id)"/>
+            </column>
+            <column name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="service" type="varchar(20)">
+                <constraints nullable="false" foreignKeyName="fk_service" references="services(code)"/>
+            </column>
+            <column name="ext_id" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="body" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="attachments" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="service_responses"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

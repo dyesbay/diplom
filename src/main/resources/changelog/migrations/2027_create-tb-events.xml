@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="2027_create-tb-events.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1027.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="events"/>
+            </not>
+        </preConditions>
+        <createTable tableName="events">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="initiator" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_initiator" references="managers(id)"/>
+            </column>
+            <column name="type" type="varchar(40)">
+                <constraints nullable="false" foreignKeyName="fk_type" references="event_types(code)"/>
+            </column>
+            <column name="body" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="commentary" type="varchar(250)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="request" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_request" references="requests(id)"/>
+            </column>
+            <column name="disabled_on" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="events"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1027.1" author="vborovok">
+        <update tableName="events">
+            <column name="type" value="STATUS_CHANGED"/>
+            <where>type='STATUS_CHANGE'</where>
+        </update>
+        <update tableName="events">
+            <column name="type" value="EMAIL_SENT"/>
+            <where>type='MAIL_SENDING'</where>
+        </update>
+        <update tableName="events">
+            <column name="type" value="ROUTE_CHANGED"/>
+            <where>type='ROUTE_CHANGE'</where>
+        </update>
+        <update tableName="events">
+            <column name="type" value="COMMENT_ADDED"/>
+            <where>type='ADD_COMMENT'</where>
+        </update>
+    </changeSet>
+
+    <changeSet id="1027.2" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="events" columnName="checked"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="events">
+            <column name="checked" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

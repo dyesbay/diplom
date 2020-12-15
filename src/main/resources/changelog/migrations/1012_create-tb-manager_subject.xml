@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1012_create-tb-manager_subject.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1012.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="manager_subject"/>
+            </not>
+        </preConditions>
+        <createTable tableName="manager_subject">
+            <column name="manager" type="bigint">
+                <constraints nullable="false" primaryKey="true" foreignKeyName="fk_manager" references="managers(id)"/>
+            </column>
+            <column name="subject" type="bigint">
+                <constraints nullable="false" primaryKey="true" foreignKeyName="fk_subject" references="subjects(id)"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="manager_subject"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

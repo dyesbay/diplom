@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1029_create-tb-messege_signatures.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1029.0" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="message_signatures"/>
+            </not>
+        </preConditions>
+        <createTable tableName="message_signatures">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="body" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="message_signatures"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="2026_create-tb-event_types.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1026.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="event_types"/>
+            </not>
+        </preConditions>
+        <createTable tableName="event_types">
+            <column name="code" type="varchar(40)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="template" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="disabled_on" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="event_types"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="1026.1" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM event_types WHERE code = 'STATUS_CHANGE'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM event_types WHERE code = 'REQUEST_CREATED'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM event_types WHERE code = 'ROUTE_CHANGE'</sqlCheck>
+        </preConditions>
+        <insert tableName="event_types">
+            <column name="code" value="STATUS_CHANGE"/>
+            <column name="name" value="смена статуса"/>
+            <column name="template">
+                '${status} ${date}
+Инициатор события: ${manager}'
+            </column>
+        </insert>
+        <insert tableName="event_types">
+            <column name="code" value="REQUEST_CREATED"/>
+            <column name="name" value="создание запроса"/>
+            <column name="template">
+                'Запрос создан ${date}
+Инициатор события: ${manager}'
+            </column>
+        </insert>
+        <insert tableName="event_types">
+            <column name="code" value="ROUTE_CHANGE"/>
+            <column name="name" value="смена маршрута"/>
+            <column name="template">
+                '${status} ${date}
+Инициатор события: ${manager}'
+            </column>
+        </insert>
+        <rollback>
+            <delete tableName="event_types">
+                <where>code = 'STATUS_CHANGE'</where>
+            </delete>
+            <delete tableName="event_types">
+                <where>code = 'REQUEST_CREATED'</where>
+            </delete>
+            <delete tableName="event_types">
+                <where>code = 'ROUTE_CHANGE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1026.2" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM event_types WHERE code = 'MAIL_SENDING'</sqlCheck>
+        </preConditions>
+        <insert tableName="event_types">
+            <column name="code" value="MAIL_SENDING"/>
+            <column name="name" value="Отправка электронного письма"/>
+            <column name="template">
+                '${name} ${date}
+Инициатор события: ${manager}'
+            </column>
+        </insert>
+        <rollback>
+            <delete tableName="event_types">
+                <where>code = 'MAIL_SENDING'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1026.3" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM event_types WHERE code = 'ADD_COMMENT'</sqlCheck>
+        </preConditions>
+        <insert tableName="event_types">
+            <column name="code" value="ADD_COMMENT"/>
+            <column name="name" value="Добавление комментария к отложенному запросу"/>
+            <column name="template">
+                '${name} ${date}
+Инициатор события: ${manager}'
+            </column>
+        </insert>
+        <rollback>
+            <delete tableName="event_types">
+                <where>code = 'ADD_COMMENT'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <!--//REQUEST_CREATED, STATUS_CHANGED,ROUTE_CHANGED,EMAIL_SENT;COMMENT_ADDED-->
+    <changeSet id="1026.4" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+                <sqlCheck expectedResult="0">select COUNT(*) from event_types where code='EMAIL_SENT'; </sqlCheck>
+        </preConditions>
+        <update tableName="event_types">
+            <column name="code" value="STATUS_CHANGED"/>
+            <where>code='STATUS_CHANGE'</where>
+        </update>
+        <update tableName="event_types">
+            <column name="code" value="EMAIL_SENT"/>
+            <where>code='MAIL_SENDING'</where>
+        </update>
+        <update tableName="event_types">
+            <column name="code" value="ROUTE_CHANGED"/>
+            <where>code='ROUTE_CHANGE'</where>
+        </update>
+        <update tableName="event_types">
+            <column name="code" value="COMMENT_ADDED"/>
+            <where>code='ADD_COMMENT'</where>
+        </update>
+
+
+    </changeSet>
+
+    <changeSet id="1026.5" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select COUNT(*) from event_types where code='REQUEST_CLOSED'; </sqlCheck>
+        </preConditions>
+        <insert tableName="event_types">
+            <column name="code" value="REQUEST_CLOSED"/>
+            <column name="name" value="Закрытие запроса"/>
+            <column name="template">
+            '${name} ${date}
+Инициатор события: ${manager}'
+            </column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

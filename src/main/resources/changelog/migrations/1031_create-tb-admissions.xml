@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1031_create-tb-admissions.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1031.0" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="admissions"/>
+            </not>
+        </preConditions>
+        <createTable tableName="admissions">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="result" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="client_email" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="client_phone" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="client_name" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="client" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_client" references="clients(id)"/>
+            </column>
+            <column name="call" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_call" references="calls(id)"/>
+            </column>
+            <column name="created_on" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="disabled_on" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="admissions"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1031.1" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="admissions" columnName="comment"/>
+            </not>
+        </preConditions>
+        <sql>
+            alter table admissions add column comment varchar(500) null;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

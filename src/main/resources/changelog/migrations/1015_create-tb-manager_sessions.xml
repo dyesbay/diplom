@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1015_create-tb-manager_sessions.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1015.0" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="manager_sessions"/>
+            </not>
+        </preConditions>
+        <createTable tableName="manager_sessions">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="manager" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_manager" references="managers(id)"/>
+            </column>
+            <column name="ext_id" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="manager_sessions"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

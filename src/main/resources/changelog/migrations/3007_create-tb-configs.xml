@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="3006_create-tb-surnames.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="3007.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="configs"/>
+            </not>
+        </preConditions>
+        <createTable tableName="configs">
+            <column name="key" type="varchar(150)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="value" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="configs"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

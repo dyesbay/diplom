@@ -1,0 +1,1466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1007_create-tb-manager_role_routes.xml"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1007.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="manager_role_routes"/>
+            </not>
+        </preConditions>
+        <createTable tableName="manager_role_routes">
+            <column name="manager_role" type="varchar(20)">
+                <constraints nullable="false" primaryKey="true" foreignKeyName="fk_manager_role" references="manager_roles(code)"/>
+            </column>
+            <column name="route" type="bigint">
+                <constraints nullable="false" primaryKey="true" foreignKeyName="fk_route" references="routes(id)"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="manager_role_routes"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.1" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="f">
+                SELECT EXISTS (
+                SELECT *
+                FROM pg_catalog.pg_proc
+                JOIN pg_namespace ON pg_catalog.pg_proc.pronamespace = pg_namespace.oid
+                WHERE proname = 'add_route'
+                AND pg_namespace.nspname = 'public'
+                )
+            </sqlCheck>
+        </preConditions>
+        <createProcedure>
+            create or replace procedure add_route(method_name varchar, path_val varchar, roles varchar,
+            open_val boolean default false)
+            language sql
+            as
+            $$
+            insert into routes (method, path, open)
+            select method_name, path_val, open_val
+            where not exists(
+            select from routes where method = method_name and path = path_val
+            ) on conflict do nothing ;
+            insert into manager_role_routes(manager_role, route)
+            VALUES (unnest(string_to_array(roles, ', ')::varchar[]),
+            (select id from routes where method = method_name and path = path_val))
+            on conflict do nothing
+            $$;
+        </createProcedure>
+        <rollback>
+            <sql>drop procedure add_route;</sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.2" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/admission'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put','/admission', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/admission'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.3" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'post' and path = '/auth/logout'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('post','/auth/logout', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'post' and path = '/auth/logout'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.4" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/call'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/call', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/call'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.5" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/call'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/call', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/call'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.6" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/call'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/call', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/call'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.7" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/client'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/client', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/client'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.8" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/client'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/client', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/client'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.9" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/client'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/client', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/client'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.10" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/client'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/client', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/client'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.11" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/client/search'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/client/search', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/client/search'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.12" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/clients'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/clients', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/clients'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.13" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/clientType'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/clientType', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/clientType'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.14" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/clientType'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/clientType', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/clientType'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.15" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/static/clientType'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/static/clientType', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/static/clientType'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.16" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/static/clientType'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/static/clientType', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/static/clientType'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.17" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/clientTypes'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/clientTypes', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/clientTypes'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.18" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/eventType'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/eventType', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/eventType'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.19" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/eventType'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/eventType', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/eventType'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.20" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/static/eventType'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/static/eventType', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/static/eventType'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.21" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/static/eventType'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/static/eventType', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/static/eventType'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.22" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/eventTypes'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/eventTypes', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/eventTypes'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.23" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/jwt/decode'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/jwt/decode', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/jwt/decode'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.24" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/jwt/generate'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/jwt/generate', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/jwt/generate'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.25" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/jwt/getUsernameFromToken'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/jwt/getUsernameFromToken', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/jwt/getUsernameFromToken'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.26" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/managerRole'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/managerRole', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/managerRole'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.27" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/managerRole'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/managerRole', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/managerRole'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.28" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/static/managerRole'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/static/managerRole', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/static/managerRole'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.29" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/static/managerRole'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/static/managerRole', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/static/managerRole'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.30" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/manager'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/manager', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/manager'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.31" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/manager'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/manager', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/manager'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.32" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/manager'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/manager', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/manager'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.33" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/manager'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/manager', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/manager'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.34" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/manager/stationInfo'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/manager/stationInfo', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/manager/stationInfo'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.35" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/messageTemplate'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/messageTemplate', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/messageTemplate'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.36" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/notification'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/notification', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/notification'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.37" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/notification'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/notification', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/notification'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.38" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/region'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/region', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/region'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.39" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/region'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/region', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/region'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.40" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/static/region'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/static/region', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/static/region'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.41" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/static/region'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/static/region', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/static/region'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.42" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/regions'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/regions', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/regions'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.43" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/region/phone'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/region/phone', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/region/phone'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.44" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/requestField'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/requestField', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/requestField'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.45" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/requestFields'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/requestFields', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/requestFields'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.46" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/requestField'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/requestField', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/requestField'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.47" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/static/requestField'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/static/requestField', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/static/requestField'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.48" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/requestFieldValue'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/requestFieldValue', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/requestFieldValue'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.49" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/requestFieldValues'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/requestFieldValues', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/requestFieldValues'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.50" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/requestFieldValue'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/requestFieldValue', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/requestFieldValue'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.51" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/static/requestFieldValue'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/static/requestFieldValue', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/static/requestFieldValue'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.52" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/request'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/request', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/request'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.53" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/request'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/request', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/request'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.54" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/request'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/request', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/request'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.55" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/request'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/request', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/request'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.56" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/routeType'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/routeType', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/routeType'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.57" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/routeType'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/routeType', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/routeType'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.58" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/static/routeType'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/static/routeType', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/static/routeType'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.59" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/static/routeType'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/static/routeType', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/static/routeType'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.60" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/section'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/section', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/section'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.61" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/section'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/section', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/section'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.62" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/static/section'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/static/section', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/static/section'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.63" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/static/section'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/static/section', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/static/section'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.64" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/sections'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/sections', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/sections'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.65" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/service'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/service', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/service'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.66" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/service'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/service', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/service'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.67" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/static/service'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/static/service', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/static/service'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.68" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/static/service'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/static/service', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/static/service'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.69" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/services'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/services', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/services'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.70" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/status'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/status', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/status'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.71" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/status'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/status', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/status'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.72" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/static/status'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/static/status', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/static/status'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.73" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/static/status'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/static/status', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/static/status'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.74" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/statuses'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/statuses', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/statuses'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.75" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/subject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/subject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/subject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.76" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/subject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/subject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/subject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.77" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/static/subject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/static/subject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/static/subject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.78" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/static/subject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/static/subject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/static/subject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.79" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/subjects'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/subjects', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/subjects'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.80" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/static/telephony'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/static/telephony', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/static/telephony'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.81" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/call'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/call', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/call'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.82" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/subSubject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/subSubject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/subSubject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.83" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'post' and path = '/static/subSubject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('post', '/static/subSubject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'post' and path = '/static/subSubject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.84" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/static/subSubject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/static/subSubject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/static/subSubject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.85" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/subSubject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/subSubject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/subSubject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.86" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/static/subSubject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/static/subSubject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/static/subSubject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.87" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/requests/distribute'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/requests/distribute', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/requests/distribute'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.88" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/managerSubjects'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/managerSubjects', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/managerSubjects'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.89" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/admission'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch','/admission', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/admission'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.90" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/managerNotification'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get','/managerNotification', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/managerNotification'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.91" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/managerNotifications'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get','/managerNotifications', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/managerNotifications'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.92" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/managerNotification'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch','/managerNotification', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/managerNotification'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.93" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/managerNotification'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete','/managerNotification', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/managerNotification'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.94" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/managerNotification'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put','/managerNotification', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/managerNotification'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+
+    <changeSet id="1007.95" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/static/subSubject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get', '/static/subSubject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/static/subSubject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.96" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'post' and path = '/static/subSubject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('post', '/static/subSubject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'post' and path = '/static/subSubject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.97" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/static/subSubject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch', '/static/subSubject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/static/subSubject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.98" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/subSubject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put', '/static/subSubject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/static/subSubject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.99" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'delete' and path = '/static/subSubject'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('delete', '/static/subSubject', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'delete' and path = '/static/subSubject'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+<!--    <changeSet id="1007.100" author="vborovok">-->
+<!--        <preConditions onFail="MARK_RAN">-->
+<!--            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/static/admission/registration'</sqlCheck>-->
+<!--        </preConditions>-->
+<!--        <sql>-->
+<!--            call add_route('put','/static/admission/registration', 'admin, oio, oooz, oooz_head, supervisor');-->
+<!--        </sql>-->
+<!--        <rollback>-->
+<!--            <delete tableName="routes">-->
+<!--                <where>method = 'put' and path = '/static/admission/registration'</where>-->
+<!--            </delete>-->
+<!--        </rollback>-->
+<!--    </changeSet>-->
+
+    <changeSet id="1007.101" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/admission'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get','/admission', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/admission'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.102" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/requests/assign'</sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put','/requests/assign', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/requests/assign'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.103" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/request/changeStatus' </sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch','/request/changeStatus', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/request/changeStatus'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1007.104" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'patch' and path = '/request' </sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('patch','/request', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'patch' and path = '/request'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.105" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'put' and path = '/request/comment' </sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('put','/request/comment', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'put' and path = '/request/comment'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.106" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/request/allComments' </sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get','/request/allComments', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/request/allComments'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.107" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/events' </sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get','/events', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/events'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1007.108" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM routes WHERE method = 'get' and path = '/event' </sqlCheck>
+        </preConditions>
+        <sql>
+            call add_route('get','/event', 'admin, oio, oooz, oooz_head, supervisor');
+        </sql>
+        <rollback>
+            <delete tableName="routes">
+                <where>method = 'get' and path = '/event'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

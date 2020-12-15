@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1004_create-tb-client_types.xml"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1004.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="client_types"/>
+            </not>
+        </preConditions>
+        <createTable tableName="client_types">
+            <column name="code" type="varchar(20)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="disabled_on" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="client_types"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1004.1" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM client_types WHERE code='jur'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM client_types WHERE code='physical'</sqlCheck>
+        </preConditions>
+        <insert tableName="client_types">
+            <column name="code" value="jur"/>
+            <column name="name" value="Юридическое лицо"/>
+            <column name="description" value="Юридическое лицо"/>
+        </insert>
+        <insert tableName="client_types">
+            <column name="code" value="physical"/>
+            <column name="name" value="Физическое лицо"/>
+            <column name="description" value="Физическое лицо"/>
+        </insert>
+        <rollback>
+            <delete tableName="client_types">
+                <where>code='jur'</where>
+            </delete>
+            <delete tableName="client_types">
+                <where>code='physical'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

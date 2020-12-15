@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="4000_alter-tables.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="4000.0" author="ustinov">
+        <sql>
+            ALTER TABLE calls
+            ALTER COLUMN station_id DROP NOT NULL;
+        </sql>
+    </changeSet>
+
+    <changeSet id="4000.1" author="ustinov">
+        <sql>
+            UPDATE admissions SET subject=null;
+        </sql>
+        <sql>
+            ALTER TABLE admissions
+            DROP COLUMN subject;
+        </sql>
+        <sql>
+            ALTER TABLE admissions
+            ADD COLUMN subject BIGINT NULL,
+            ADD FOREIGN KEY(subject) REFERENCES subjects(id);
+        </sql>
+        <sql>
+            UPDATE admissions set subject=1;
+        </sql>
+    </changeSet>
+
+    <changeSet id="4000.2" author="vborovok">
+        <sql>
+            ALTER TABLE events ALTER COLUMN initiator DROP NOT NULL
+        </sql>
+    </changeSet>
+
+    <changeSet id="4000.3" author="vborovok">
+        <sql>
+            ALTER TABLE integrations_configs
+            ADD COLUMN password_hash TEXT NULL
+        </sql>
+        <sql>
+            ALTER TABLE managers_notifications
+            ADD COLUMN title TEXT NULL,
+            DROP COLUMN roles,
+            ADD COLUMN role VARCHAR(20) NOT NULL,
+            ADD FOREIGN KEY(role) REFERENCES manager_roles(code)
+        </sql>
+        <sql>
+            ALTER TABLE request_reminders
+            ADD COLUMN title TEXT NULL
+        </sql>
+    </changeSet>
+    <changeSet id="3001.33" author="vborovok">
+        <sql>
+            UPDATE routes SET method = 'post'
+            WHERE path = '/managerNotifications'
+        </sql>
+    </changeSet>
+</databaseChangeLog>

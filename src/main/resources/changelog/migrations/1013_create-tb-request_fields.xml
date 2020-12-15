@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1013_create-tb-request_fields.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1013.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="request_fields"/>
+            </not>
+        </preConditions>
+        <createTable tableName="request_fields">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="disabled_on" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="input_type" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="request_fields"/>
+        </rollback>
+    </changeSet>
+
+    <!--Вид услуги
+    Тема: Государственная регистрация права / Единая процедура-->
+    <changeSet id="1013.1" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=1</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Вид услуги</column>
+            <column name="input_type">TEXT_SEARCH</column>
+        </insert>
+    </changeSet>
+
+    <!--Регион объекта недвижимости
+    Тема: Государственная регистрация права / Единая процедура-->
+    <changeSet id="1013.2" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=2</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Регион объекта недвижимости</column>
+            <column name="input_type">TEXT_SEARCH</column>
+        </insert>
+    </changeSet>
+
+    <!--Вид объекта недвижимости
+    Тема: Государственная регистрация права / Единая процедура-->
+    <changeSet id="1013.3" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=3</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Вид объекта недвижимости</column>
+            <column name="input_type">TEXT_SEARCH</column>
+        </insert>
+    </changeSet>
+
+    <!--Адрес объекта недвижимости/кадастровый номер
+    Тема: Государственная регистрация права / Единая процедура-->
+    <changeSet id="1013.4" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=4</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Адрес объекта недвижимости/кадастровый номер</column>
+            <column name="input_type">EXTERNAL_SERVICE</column>
+        </insert>
+    </changeSet>
+
+    <!--Вид разрешенного использования/категория земель
+    Тема: Государственная регистрация права / Единая процедура-->
+    <changeSet id="1013.5" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=5</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Вид разрешенного использования/категория земель</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Вид разрешенного использования/категория земель
+    Тема: Государственная регистрация права / Единая процедура-->
+    <changeSet id="1013.6" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=6</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Вид разрешенного использования/категория земель</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Правоустанавливающий документ
+    Тема: Государственная регистрация права / Единая процедура-->
+    <changeSet id="1013.7" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=7</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Правоустанавливающий документ</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Номер заявления
+    Тема: Государственная регистрация права / Единая процедура-->
+    <changeSet id="1013.8" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=8</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Номер заявления</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Код платежа
+    Тема: Государственная регистрация права / Единая процедура-->
+    <changeSet id="1013.9" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=9</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Код платежа</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Размер доли
+    Тема: Государственная регистрация права / Единая процедура-->
+    <changeSet id="1013.10" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=10</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Размер доли</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Регион подачи документов
+    Тема: Проблемы с получением документов
+    Подтема: документы готовы, но не получены-->
+    <changeSet id="1013.11" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=11</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Регион подачи документов</column>
+            <column name="input_type">TEXT_SEARCH</column>
+        </insert>
+    </changeSet>
+
+    <!--Адрес объекта недвижимости/кадастровый номер
+    Тема: Проблемы с получением документов
+    Подтема: документы готовы, но не получены-->
+    <changeSet id="1013.12" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=12</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Адрес объекта недвижимости/кадастровый номер</column>
+            <column name="input_type">TEXT_SEARCH</column>
+        </insert>
+    </changeSet>
+
+    <!--Способ получения документов
+    Тема: Проблемы с получением документов
+    Подтема: документы готовы, но не получены-->
+    <changeSet id="1013.13" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=13</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Вид государственной услуги</column>
+            <column name="input_type">SELECT</column>
+        </insert>
+    </changeSet>
+
+    <!--Место подачи документов
+    Тема: Проблемы с получением документов
+    Подтема: документы готовы, но не получены-->
+    <changeSet id="1013.14" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=14</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Место подачи документов</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Способ получения документов
+    Тема: Проблемы с получением документов
+    Подтема: документы готовы, но не получены-->
+    <changeSet id="1013.15" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=15</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Способ получения документов</column>
+            <column name="input_type">TEXT_SEARCH</column>
+        </insert>
+    </changeSet>
+
+    <!--Номер основного пакета документов
+    Тема: Проблемы с получением документов
+    Подтема: документы готовы, но не получены-->
+    <changeSet id="1013.16" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=16</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Номер основного пакета документов</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Номер дополнительного пакета документов
+    Тема: Проблемы с получением документов
+    Подтема: документы готовы, но не получены-->
+    <changeSet id="1013.17" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=17</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Номер дополнительного пакета документов</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Адрес получения документов
+    Тема: Проблемы с получением документов
+    Подтема: документы готовы, но не получены-->
+    <changeSet id="1013.18" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=18</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Адрес получения документов</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Номер заявки/запроса
+    Тема: Проблемы с получением документов
+    Подтема: проблемы при скачивании / открытии документов-->
+    <changeSet id="1013.19" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=19</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Номер заявки/запроса</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Наименование сервиса Росреестра
+    Тема: Проблемы с получением документов
+    Подтема: проблемы при скачивании / открытии документов-->
+    <changeSet id="1013.20" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=20</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Наименование сервиса Росреестра</column>
+            <column name="input_type">SELECT</column>
+        </insert>
+    </changeSet>
+
+    <!--Адрес объекта недвижимости/кадастровый номер
+    Тема: Проблемы с получением документов
+    Подтема: портальная заявка не выполнена в установленный срок-->
+    <changeSet id="1013.21" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=21</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Адрес объекта недвижимости/кадастровый номер</column>
+            <column name="input_type">EXTERNAL_SERVICE</column>
+        </insert>
+    </changeSet>
+
+    <!--Номер заявки/запроса
+    Тема: Проблемы с получением документов
+    Подтема: портальная заявка не выполнена в установленный срок-->
+    <changeSet id="1013.22" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=22</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Номер заявки/запроса</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Контактные данные заявителя
+    Тема: В соответствии с пп. 2.5.2, 2.5.4 Регламента -->
+    <changeSet id="1013.23" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=23</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Контактные данные заявителя</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Регион предоставления государственной услуги
+    Тема: В соответствии с пп. 2.5.2, 2.5.4 Регламента -->
+    <changeSet id="1013.24" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=24</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Регион предоставления государственной услуги</column>
+            <column name="input_type">TEXT_SEARCH</column>
+        </insert>
+    </changeSet>
+
+    <!--Вид государственной услуги
+    Тема: В соответствии с пп. 2.5.2, 2.5.4 Регламента -->
+    <changeSet id="1013.25" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=25</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Вид государственной услуги</column>
+            <column name="input_type">TEXT_SEARCH</column>
+        </insert>
+    </changeSet>
+
+    <!--Способ предоставления ответа заявителю
+    Тема: В соответствии с пп. 2.5.2, 2.5.4 Регламента -->
+    <changeSet id="1013.26" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=26</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Способ предоставления ответа заявителю</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Номер основного пакета документов
+    Тема: В соответствии с пп. 2.5.2, 2.5.4 Регламента -->
+    <changeSet id="1013.27" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=27</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Номер основного пакета документов</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Адрес объекта недвижимости / кадастровый номер
+    Тема: В соответствии с пп. 2.5.2, 2.5.4 Регламента -->
+    <changeSet id="1013.28" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=28</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Адрес объекта недвижимости/кадастровый номер</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!--Дата обращения за получением результата
+    Тема: В соответствии с пп. 2.5.2, 2.5.4 Регламента -->
+    <changeSet id="1013.29" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=29</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Дата обращения за получением результата</column>
+            <column name="input_type">DATE</column>
+        </insert>
+    </changeSet>
+
+    <!--Требования заявителя
+    Тема: В соответствии с пп. 2.5.2, 2.5.4 Регламента -->
+    <changeSet id="1013.30" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=30</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Требования заявителя</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!-- Дата и время звонка
+        Тема: В соответствии с п. 2.4.5 Регламента (на действия сотрудников ВЦТО)-->
+    <changeSet id="1013.31" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=31</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Дата и время звонка</column>
+            <column name="input_type">DATE_TIME</column>
+        </insert>
+    </changeSet>
+
+    <!-- Номер телефона, с которого был осуществлен вызов
+        Тема: В соответствии с п. 2.4.5 Регламента (на действия сотрудников ВЦТО)-->
+    <changeSet id="1013.32" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=32</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Номер телефона, с которого был осуществлен вызов</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!-- Способ предоставления ответа заявителя
+        Тема: В соответствии с п. 2.4.5 Регламента (на действия сотрудников ВЦТО)-->
+    <changeSet id="1013.33" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=33</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Способ предоставления ответа заявителя</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!-- Контактные данные отправителя
+        Тема: Реквизиты жалоб / обращений-->
+    <changeSet id="1013.34" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=34</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Контактные данные отправителя</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!-- Способ предоставления ответа заявителю
+        Тема: Реквизиты жалоб / обращений-->
+    <changeSet id="1013.35" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=35</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Способ предоставления ответа заявителю</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!-- Адрес, на который была направлена жалоба
+         (обращение)
+        Тема: Реквизиты жалоб / обращений-->
+    <changeSet id="1013.36" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=36</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Адрес, на который была направлена жалоба (обращение)</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!-- Получатель жалобы (обращения)
+        Тема: Реквизиты жалоб / обращений-->
+    <changeSet id="1013.37" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=37</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Получатель жалобы (обращения)</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!-- Исходящий номер / Портальный номер жалобы(обращения)
+        Тема: Реквизиты жалоб / обращений-->
+    <changeSet id="1013.38" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=38</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Исходящий номер/Портальный номер жалобы (обращения)</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!-- Входящий номер жалобы (обращения)
+        Тема: Реквизиты жалоб / обращений-->
+    <changeSet id="1013.39" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=39</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Входящий номер жалобы (обращения)</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!-- Дата отправки жалобы (обращения)
+        Тема: Реквизиты жалоб / обращений-->
+    <changeSet id="1013.40" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=40</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Дата отправки жалобы (обращения)</column>
+            <column name="input_type">DATE_TIME</column>
+        </insert>
+    </changeSet>
+
+    <!-- Тема отправленной жалобы (обращения)
+        Тема: Реквизиты жалоб / обращений-->
+    <changeSet id="1013.41" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=41</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Тема отправленной жалобы (обращения)</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!-- Тема отправленной жалобы (обращения)
+        Тема: Реквизиты жалоб / обращений-->
+    <changeSet id="1013.42" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=42</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Способ направления жалобы (обращения)</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!-- Тип отправителя
+        Тема: Реквизиты жалоб / обращений-->
+    <changeSet id="1013.43" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=43</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Тип отправителя</column>
+            <column name="input_type">TEXT_SEARCH</column>
+        </insert>
+    </changeSet>
+
+    <!-- Адрес объекта недвижимости / кадастровый номер
+    объекта недвижимости, указанного в жалобе
+    (обращении)
+        Тема: Реквизиты жалоб / обращений-->
+    <changeSet id="1013.44" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=44</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Адрес объекта недвижимости/кадастровый номер объекта недвижимости, указанного в жалобе (обращении)</column>
+            <column name="input_type">EXTERNAL_SERVICE</column>
+        </insert>
+    </changeSet>
+
+    <!-- Вид услуги
+        Тема: Государственный кадастровый учет-->
+    <changeSet id="1013.45" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=45</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Вид услуги</column>
+            <column name="input_type">SELECT</column>
+        </insert>
+    </changeSet>
+
+    <!-- Регион объекта недвижимости
+        Тема: Государственный кадастровый учет-->
+    <changeSet id="1013.46" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=46</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Регион объекта недвижимости</column>
+            <column name="input_type">TEXT_SEARCH</column>
+        </insert>
+    </changeSet>
+
+    <!-- Адрес объекта недвижимости/кадастровый номер
+        Тема: Государственный кадастровый учет-->
+    <changeSet id="1013.47" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=47</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Адрес объекта недвижимости/кадастровый номер</column>
+            <column name="input_type">EXTERNAL_SERVICE</column>
+        </insert>
+    </changeSet>
+
+    <!-- Вид разрешенного использования / категория земель
+        Тема: Государственный кадастровый учет-->
+    <changeSet id="1013.48" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=48</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Вид разрешенного использования/категория земель</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+    <!-- Номер заявления
+       Тема: Государственный кадастровый учет-->
+    <changeSet id="1013.49" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM request_fields WHERE id=49</sqlCheck>
+        </preConditions>
+        <insert tableName="request_fields">
+            <column name="name">Номер заявления</column>
+            <column name="input_type">TEXT</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

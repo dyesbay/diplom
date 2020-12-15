@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="2021_create-tb-requests.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1021.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="requests"/>
+            </not>
+        </preConditions>
+        <createTable tableName="requests">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="assignee" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_assignee" references="managers(id)"/>
+            </column>
+            <column name="requester" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_requester" references="clients(id)"/>
+            </column>
+            <column name="status" type="varchar(20)" defaultValue="pending processing">
+                <constraints nullable="false" foreignKeyName="fk_status" references="status(code)"/>
+            </column>
+            <column name="created_on" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="route_type" type="varchar(20)">
+                <constraints nullable="true" foreignKeyName="fk_route_type" references="route_types(code)"/>
+            </column>
+            <column name="channel" type="varchar(20)" defaultValue="phone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="body" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_subject" references="subjects(id)"/>
+            </column>
+            <column name="sub_subject" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_sub_subject" references="sub_subjects(id)"/>
+            </column>
+            <column name="admission" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_admission" references="admissions(id)"/>
+            </column>
+            <column name="link" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_link" references="requests(id)"/>
+            </column>
+            <column name="platform" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applicant_contacts" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="text">
+                <constraints nullable= "true"/>
+            </column>
+            <column name="disabled_on" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="requests"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="1021.1" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="requests" columnName="life_span_date"/>
+                <columnExists tableName="requests" columnName="expires_date"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="requests">
+            <column name="expires_date" type="date">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="requests">
+            <column name="life_span_date" type="date">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="1021.2" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="requests" columnName="closed_on"/>
+            </not>
+        </preConditions>
+        <sql>
+            ALTER TABLE requests ADD COLUMN closed_on TIMESTAMP NULL;
+        </sql>
+        <rollback>ALTER TABLE requests DROP COLUMN closed_on;</rollback>
+    </changeSet>
+
+    <changeSet id="1021.3" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="requests" columnName="assigned_on"/>
+            </not>
+        </preConditions>
+        <sql>
+            ALTER TABLE requests ADD COLUMN assigned_on TIMESTAMP NULL;
+        </sql>
+        <rollback>ALTER TABLE requests DROP COLUMN assigned_on;</rollback>
+    </changeSet>
+</databaseChangeLog>

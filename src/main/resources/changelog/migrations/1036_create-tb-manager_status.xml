@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1036_create-tb-manager_status.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1036.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="manager_status"/>
+            </not>
+        </preConditions>
+        <createTable tableName="manager_status">
+            <column name="code" type="varchar(20)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="work_mode" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reason_code" type="varchar(10)">
+                <constraints nullable="true"/>
+            </column>
+             <column name="disabled_on" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="manager_status"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.1" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'ACTIVE'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="ACTIVE"/>
+            <column name="name" value="в сети"/>
+            <column name="work_mode" value="2"/>
+            <column name="reason_code" value="0"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'ACTIVE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.2" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'NOT_READY'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="NOT_READY"/>
+            <column name="name" value="не готов"/>
+            <column name="work_mode" value="0"/>
+            <column name="reason_code" value="0"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'NOT_READY'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.3" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'LUNCH'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="LUNCH"/>
+            <column name="name" value="обед"/>
+            <column name="work_mode" value="0"/>
+            <column name="reason_code" value="1"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'LUNCH'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.4" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'BREAK'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="BREAK"/>
+            <column name="name" value="перерыв"/>
+            <column name="work_mode" value="0"/>
+            <column name="reason_code" value="2"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'BREAK'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.5" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'TRAINING'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="TRAINING"/>
+            <column name="name" value="тренинг"/>
+            <column name="work_mode" value="0"/>
+            <column name="reason_code" value="3"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'TRAINING'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.6" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'SANITARY'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="SANITARY"/>
+            <column name="name" value="санитарный перерыв"/>
+            <column name="work_mode" value="0"/>
+            <column name="reason_code" value="4"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'SANITARY'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.7" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'TASK'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="TASK"/>
+            <column name="name" value="задание руководителя"/>
+            <column name="work_mode" value="0"/>
+            <column name="reason_code" value="5"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'TASK'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.8" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'CONSULTATION'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="CONSULTATION"/>
+            <column name="name" value="консультация"/>
+            <column name="work_mode" value="0"/>
+            <column name="reason_code" value="6"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'CONSULTATION'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.9" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'TECH_PROBLEM'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="TECH_PROBLEM"/>
+            <column name="name" value="техническая проблема"/>
+            <column name="work_mode" value="0"/>
+            <column name="reason_code" value="7"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'TECH_PROBLEM'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.10" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'INCOMING_APPEAL'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="INCOMING_APPEAL"/>
+            <column name="name" value="входящее обращение"/>
+            <column name="work_mode" value="0"/>
+            <column name="reason_code" value="8"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'INCOMING_APPEAL'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.11" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'OUTGOING_APPEAL'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="OUTGOING_APPEAL"/>
+            <column name="name" value="исходящее обращение"/>
+            <column name="work_mode" value="0"/>
+            <column name="reason_code" value="9"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'OUTGOING_APPEAL'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.12" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'WORKING_AFTER_CALL'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="WORKING_AFTER_CALL"/>
+            <column name="name" value="постобработка"/>
+            <column name="work_mode" value="3"/>
+            <column name="reason_code" value="0"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'OUTGOING_APPEAL'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.13" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'BUSY'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="BUSY"/>
+            <column name="name" value="занят"/>
+            <column name="work_mode" value="4"/>
+            <column name="reason_code" value="0"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'BUSY'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1036.14" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(1) from manager_status where code = 'EMPTY'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_status">
+            <column name="code" value="EMPTY"/>
+            <column name="name" value=""/>
+            <column name="work_mode" value="1"/>
+            <column name="reason_code" value="0"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_status">
+                <where>code = 'EMPTY'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1019_create-tb-calls.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1019.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="calls"/>
+            </not>
+        </preConditions>
+        <createTable tableName="calls">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="identifier" type="varchar(50)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="incoming" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="station_id" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="agent_id" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="started_on" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="ended_on" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="on_hold" type="time">
+                <constraints nullable="true"/>
+            </column>
+            <column name="manager" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_manager" references="managers(id)"/>
+            </column>
+            <column name="phone" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="calls"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

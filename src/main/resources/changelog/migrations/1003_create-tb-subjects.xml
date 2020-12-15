@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1003_create-tb-subjects.xml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet id="1003.0" author="vborovok">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="subjects" />
+			</not>
+		</preConditions>
+		<createTable tableName="subjects">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="description" type="varchar(100)">
+				<constraints nullable="true" />
+			</column>
+			<column name="section" type="bigint">
+				<constraints nullable="false"
+					foreignKeyName="fk_section" references="sections(id)" />
+			</column>
+			<column name="global" type="boolean" defaultValue="true">
+				<constraints nullable="true"/>
+			</column>
+			<column name="max_execution_time" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="complaint" type="boolean" defaultValue="false">
+				<constraints nullable="false"/>
+			</column>
+			<column name="disabled_on" type="timestamp">
+			    <constraints nullable= "true"/>
+			</column>
+		</createTable>
+		<rollback>
+			<dropTable tableName="subjects" />
+		</rollback>
+	</changeSet>
+
+	<!--Консультация по услугам Росреестра-->
+	<changeSet id="1003.1" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Государственная регистрация права/Единая процедура'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Консультация по услугам Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">1</column>
+			<column name="name">Государственная регистрация права/Единая процедура</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.2" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Государственный кадастровый учет'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Консультация по услугам Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">1</column>
+			<column name="name">Государственный кадастровый учет</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.3" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Предоставление сведений из ЕГРН'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Консультация по услугам Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">1</column>
+			<column name="name">Предоставление сведений из ЕГРН</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.4" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Иные функции Росреестра'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Консультация по услугам Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">1</column>
+			<column name="name">Иные функции Росреестра</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<!--Услуги, оказываемые в ЦА/ТО/ПО Росреестра-->
+	<changeSet id="1003.5" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Статус готовности документов'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Услуги, оказываемые в ЦА/ТО/ПО Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">2</column>
+			<column name="name">Статус готовности документов</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.6" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Проблемы с получением документов'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Услуги, оказываемые в ЦА/ТО/ПО Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">2</column>
+			<column name="name">Проблемы с получением документов</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.7" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Предоставление некорректной информации (в т.ч. на портальную заявку)'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Услуги, оказываемые в ЦА/ТО/ПО Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">2</column>
+			<column name="name">Предоставление некорректной информации (в т.ч. на портальную заявку)</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<!--Оформление предварительной записи-->
+	<changeSet id="1003.8" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Предварительная запись на прием-выдачу документов'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Оформление предварительной записи'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">3</column>
+			<column name="name">Предварительная запись на прием-выдачу документов</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.9" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Личный прием к руководству/должностным лицам'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Оформление предварительной записи'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">3</column>
+			<column name="name">Личный прием к руководству/должностным лицам</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.10" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Предоставление услуги по выездному приему'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Оформление предварительной записи'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">3</column>
+			<column name="name">Предоставление услуги по выездному приему</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<!-- Сервис предоставления сведений ФГБУ «ФКП Росреестра»-->
+	<changeSet id="1003.11" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Сервис предоставления сведений ФГБУ «ФКП Росреестра»'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Сервис предоставления сведений ФГБУ «ФКП Росреестра»'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">4</column>
+			<column name="name">Сервис предоставления сведений ФГБУ «ФКП Росреестра»</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<!--Удостоверяющий центр/электронная подпись ФГБУ «ФКП Росреестра»-->
+	<changeSet id="1003.12" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Удостоверяющий центр/электронная подпись ФГБУ «ФКП Росреестра»'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Удостоверяющий центр/электронная подпись ФГБУ «ФКП Росреестра»'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">5</column>
+			<column name="name">Удостоверяющий центр/электронная подпись ФГБУ «ФКП Росреестра»</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<!--Проблемы в работе электронных сервисов Росреестра-->
+	<changeSet id="1003.13" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Сервис «Справочная информация по объектам недвижимости в режиме online»'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Проблемы в работе электронных сервисов Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">6</column>
+			<column name="name">Сервис «Справочная информация по объектам недвижимости в режиме online»</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.14" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Сервис «Публичная кадастровая карта»'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Проблемы в работе электронных сервисов Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">6</column>
+			<column name="name">Сервис «Публичная кадастровая карта»</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.15" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Сервис «Запрос к информационному ресурсу»'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Проблемы в работе электронных сервисов Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">6</column>
+			<column name="name">Сервис «Запрос к информационному ресурсу»</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.16" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Сервис «Предварительная запись на прием»'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Проблемы в работе электронных сервисов Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">6</column>
+			<column name="name">Сервис «Предварительная запись на прием»</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.17" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Сервис «Проверка электронного документа»'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Проблемы в работе электронных сервисов Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">6</column>
+			<column name="name">Сервис «Проверка электронного документа»</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.18" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Сервис «АИС Мониторинг рынка недвижимости»'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Проблемы в работе электронных сервисов Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">6</column>
+			<column name="name">Сервис «АИС Мониторинг рынка недвижимости»</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.19" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Сервис «Фонд данных государственной кадастровой оценки»'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Проблемы в работе электронных сервисов Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">6</column>
+			<column name="name">Сервис «Фонд данных государственной кадастровой оценки»</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.20" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Сервис «Государственный реестр кадастровых инженеров»'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Проблемы в работе электронных сервисов Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">6</column>
+			<column name="name">Сервис «Государственный реестр кадастровых инженеров»</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.21" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Сервис «Личный кабинет»'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Проблемы в работе электронных сервисов Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">6</column>
+			<column name="name">Сервис «Личный кабинет»</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.22" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Сервис «Государственные услуги. Подача заявления на ГКУ и (или) ГРП»'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Проблемы в работе электронных сервисов Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">6</column>
+			<column name="name">Сервис «Государственные услуги. Подача заявления на ГКУ и (или) ГРП»</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.23" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Сервис «Государственные услуги. Получение сведений из ЕГРН»'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Проблемы в работе электронных сервисов Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">6</column>
+			<column name="name">Сервис «Государственные услуги. Получение сведений из ЕГРН»</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.24" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Вопросы по иным сервисам сайта Росреестра'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Проблемы в работе электронных сервисов Росреестра'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">6</column>
+			<column name="name">Вопросы по иным сервисам сайта Росреестра</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+
+	<!-- Жалобы / Обращения-->
+	<changeSet id="1003.25" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='В соответствии с пп. 2.5.2, 2.5.4 Регламента'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Жалобы/Обращения'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">7</column>
+			<column name="name">В соответствии с пп. 2.5.2, 2.5.4 Регламента</column>
+			<column name="max_execution_time">7</column>
+			<column name="complaint">true</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.26" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='В соответствии с п. 2.4.5 Регламента (на действия сотрудников ВЦТО)'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Жалобы/Обращения'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">7</column>
+			<column name="name">В соответствии с п. 2.4.5 Регламента (на действия сотрудников ВЦТО)</column>
+			<column name="max_execution_time">7</column>
+			<column name="complaint">true</column>
+		</insert>
+	</changeSet>
+
+	<changeSet id="1003.27" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Реквизиты жалоб/обращений'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Жалобы/Обращения'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">7</column>
+			<column name="name">Реквизиты жалоб/обращений</column>
+			<column name="max_execution_time">7</column>
+			<column name="complaint">true</column>
+		</insert>
+	</changeSet>
+
+	<!--Ошибки/Хулиганство-->
+	<changeSet id="1003.28" author="ustinov">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM subjects WHERE name='Ошибки/Хулиганство'</sqlCheck>
+			<and>
+				<sqlCheck expectedResult="1">SELECT COUNT(*) FROM sections WHERE name='Ошибки/Хулиганство'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="subjects">
+			<column name="section">8</column>
+			<column name="name">Ошибки/Хулиганство</column>
+			<column name="max_execution_time">7</column>
+		</insert>
+	</changeSet>
+</databaseChangeLog>

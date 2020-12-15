@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1017_create-tb-route_types.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1016.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="route_types"/>
+            </not>
+        </preConditions>
+        <createTable tableName="route_types">
+            <column name="code" type="varchar(20)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="route_types"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1016.1" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM route_types WHERE code = '100'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM route_types WHERE code = '200'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM route_types WHERE code = '300'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM route_types WHERE code = '400'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM route_types WHERE code = '500'</sqlCheck>
+        </preConditions>
+
+        <insert tableName="route_types">
+            <column name="code" value="100"/>
+            <column name="name" value="События вне маршрутов (Самостоятельная обработка запроса)"/>
+        </insert>
+        <insert tableName="route_types">
+            <column name="code" value="200"/>
+            <column name="name" value="Запрос зарегистрирован в ЕСРОО"/>
+        </insert>
+        <insert tableName="route_types">
+            <column name="code" value="300"/>
+            <column name="name" value="Запрос направлен в ТО/ПО/ЦА РР/ФГБУ"/>
+        </insert>
+        <insert tableName="route_types">
+            <column name="code" value="400"/>
+            <column name="name" value="Жалоба п.2.4.2"/>
+        </insert>
+        <insert tableName="route_types">
+            <column name="code" value="500"/>
+            <column name="name" value="Жалоба п.2.4.4"/>
+        </insert>
+
+        <rollback>
+            <dropTable tableName="status"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1016.2" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM route_types WHERE code = '0'</sqlCheck>
+        </preConditions>
+        <insert tableName="route_types">
+            <column name="code" value="0"/>
+            <column name="name" value="Дублированные запросы"/>
+        </insert>
+        <rollback>
+            <delete tableName="route_types">
+                <where>code='0'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1002_create-tb-sections.xml"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1002.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="sections"/>
+            </not>
+        </preConditions>
+        <createTable tableName="sections">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="disabled_on" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="sections"/>
+        </rollback>
+    </changeSet>
+
+
+    <changeSet id="1002.1" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0"> SELECT COUNT(*) FROM sections WHERE name = 'Консультация по услугам Росреестра'</sqlCheck>
+        </preConditions>
+        <insert tableName="sections">
+            <column name="name">Консультация по услугам Росреестра</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1002.2" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0"> SELECT COUNT(*) FROM sections WHERE name = 'Услуги, оказываемые в ЦА/ТО/ПО Росреестра'</sqlCheck>
+        </preConditions>
+        <insert tableName="sections">
+            <column name="name">Услуги, оказываемые в ЦА/ТО/ПО Росреестра</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1002.3" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0"> SELECT COUNT(*) FROM sections WHERE name = 'Оформление предварительной записи'</sqlCheck>
+        </preConditions>
+        <insert tableName="sections">
+            <column name="name">Оформление предварительной записи</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1002.4" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0"> SELECT COUNT(*) FROM sections WHERE name = 'Сервис предоставления сведений ФГБУ «ФКП Росреестра»'</sqlCheck>
+        </preConditions>
+        <insert tableName="sections">
+            <column name="name">Сервис предоставления сведений ФГБУ «ФКП Росреестра»</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1002.5" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0"> SELECT COUNT(*) FROM sections WHERE name = 'Удостоверяющий центр/электронная подпись ФГБУ «ФКП Росреестра»'</sqlCheck>
+        </preConditions>
+        <insert tableName="sections">
+            <column name="name">Удостоверяющий центр/электронная подпись ФГБУ «ФКП Росреестра»</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1002.6" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0"> SELECT COUNT(*) FROM sections WHERE name = 'Проблемы в работе электронных сервисов Росреестра'</sqlCheck>
+        </preConditions>
+        <insert tableName="sections">
+            <column name="name">Проблемы в работе электронных сервисов Росреестра</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1002.7" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0"> SELECT COUNT(*) FROM sections WHERE name = 'Жалобы/Обращения'</sqlCheck>
+        </preConditions>
+        <insert tableName="sections">
+            <column name="name">Жалобы/Обращения</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1002.8" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0"> SELECT COUNT(*) FROM sections WHERE name = 'Ошибки/Хулиганство'</sqlCheck>
+        </preConditions>
+        <insert tableName="sections">
+            <column name="name">Ошибки/Хулиганство</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1002.9" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0"> SELECT COUNT(*) FROM sections WHERE name = 'Иные'</sqlCheck>
+        </preConditions>
+        <insert tableName="sections">
+            <column name="name">Иные</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

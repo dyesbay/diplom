@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1011_create-tb-clients.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1011.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="clients"/>
+            </not>
+        </preConditions>
+        <createTable tableName="clients">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="first_name" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_name" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="middle_name" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="email" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="phone" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="communication_type" type="varchar(20)">
+               <constraints nullable="true"/>
+            </column>
+            <column name="company" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="commentary" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="region" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_region" references="regions(id)"/>
+            </column>
+            <column name="contact" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="client_type" type="varchar(40)">
+                <constraints nullable="true" foreignKeyName="fk_client_type" references="client_types(code)"/>
+            </column>
+            <column name="disabled_on" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="clients"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

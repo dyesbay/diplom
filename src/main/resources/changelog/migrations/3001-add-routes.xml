@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="3001_add-routes.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="3001.0" author="ustinov">
+        <sql>
+            call add_route('patch', '/static/requestField', 'admin');
+            call add_route('post', '/static/regionPhoneNumbers/upload_file', 'admin');
+            call add_route('get', '/static/regionPhoneNumbers', 'admin');
+            call add_route('delete', '/static/regionPhoneNumbers', 'admin');
+            call add_route('get', '/static/regionPhoneNumbers/DEF', 'admin');
+            call add_route('get', '/static/regionPhoneNumbers/ABC', 'admin');
+            call add_route('put', '/static/regionPhoneNumber/DEF', 'admin');
+            call add_route('put', '/static/regionPhoneNumber/ABC', 'admin');
+            call add_route('patch', '/static/regionPhoneNumber/DEF', 'admin');
+            call add_route('patch', '/static/regionPhoneNumber/ABC', 'admin');
+            call add_route('get', '/static/admission/event', 'admin');
+        </sql>
+    </changeSet>
+    <changeSet id="3001.1" author="vborovok">
+        <sql>
+            call add_route('put', '/requestReminder', 'admin');
+            call add_route('patch', '/requestReminder/postpone', 'admin');
+            call add_route('delete', '/requestReminder', 'admin');
+            call add_route('put', '/static/integrationConfig', 'admin');
+            call add_route('get', '/static/integrationConfig', 'admin');
+            call add_route('patch', '/static/departmentAddressBook', 'admin');
+            call add_route('put', '/static/departmentAddressBook', 'admin');
+            call add_route('get', '/static/departmentAddresses', 'admin');
+        </sql>
+    </changeSet>
+    <changeSet id="3001.2" author="vborovok">
+        <sql>
+            call add_route('patch', '/managerAddressBook', 'admin');
+            call add_route('put', '/managerAddressBook', 'admin');
+            call add_route('get', '/managerAddresses', 'admin');
+        </sql>
+    </changeSet>
+    <changeSet id="3001.3" author="dyesbay">
+        <sql>
+            call add_route('get', '/search/requests', 'admin');
+        </sql>
+    </changeSet>
+    <changeSet id="3001.4" author="vborovok">
+        <sql>
+            call add_route('get', '/search/admissions', 'admin');
+        </sql>
+    </changeSet>
+    <changeSet id="3001.5" author="dyesbay">
+        <sql>
+            call add_route('get', '/managers', 'admin');
+        </sql>
+    </changeSet>
+    <changeSet id="3001.6" author="vborovok">
+        <sql>
+            call add_route('put', '/managerSchedule/all/addWeekends', 'admin');
+            call add_route('put', '/managerSchedule/all/addWorkdays', 'admin');
+            call add_route('put', '/managerSchedule/edit', 'admin');
+            call add_route('patch', '/manager/dateOfDismissal', 'admin');
+        </sql>
+    </changeSet>
+    <changeSet id="3001.7" author="ustinov">
+        <sql>
+            call add_route('get', '/manager/stat/today', 'admin');
+        </sql>
+    </changeSet>
+    <changeSet id="3001.8" author="dyesbay">
+        <sql>
+            call add_route('get', '/search/names', 'admin');
+            call add_route('get', '/search/surnames', 'admin');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.9" author="vborovok">
+        <sql>
+            call add_route('put', '/static/subject/editAccess', 'admin');
+            call add_route('put', '/groups/add', 'admin');
+            call add_route('delete', '/groups/delete', 'admin');
+        </sql>
+    </changeSet>
+    <changeSet id="3001.10" author="vborovok">
+        <sql>
+            call add_route('get', '/config', 'admin');
+            call add_route('put', '/config', 'admin');
+            call add_route('patch', '/config', 'admin');
+        </sql>
+    </changeSet>
+    <changeSet id="3001.11" author="vborovok">
+        <sql>
+            call add_route('get', '/managerSchedule/all', 'admin');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.12" author="ustinov">
+        <sql>
+            call add_route('put', '/request/send_mail', 'admin');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.13" author="ustinov">
+        <sql>
+            call add_route('post', '/request/send_mail', 'admin');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.14" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="routes"/>
+            <tableExists tableName="manager_role_routes"/>
+        </preConditions>
+        <sql>
+            delete from manager_role_routes;
+        </sql>
+        <sql>
+            delete from routes;
+        </sql>
+
+        <sql>
+            call add_route('get','/search/admissions', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get','/admission', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('patch','/admission', 'admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('get','/call','admin, supervisor, oio, oooz_head, oooz');
+            call add_route('put','/call','admin, supervisor, oio, oooz_head, oooz');
+            call add_route('patch','/call','admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('get','/client','admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get','/client/search','admin, supervisor, oio, oooz_head, oooz');
+            call add_route('put','/client','admin, supervisor, oio, oooz_head, oooz');
+            call add_route('delete','/client','admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get','/client/search','admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('get','/static/clientType','admin, supervisor, oooz_head');
+            call add_route('get','/static/clientTypes','admin, supervisor, oooz_head, oooz, oio');
+            call add_route('put','/static/clientType','admin, supervisor, oooz_head');
+            call add_route('patch','/static/clientType','admin, supervisor, oooz_head');
+            call add_route('delete','/static/clientType','admin, supervisor, oooz_head');
+
+            call add_route('get','/static/departmentAddresses','admin, supervisor, oio, oooz_head, oooz');
+            call add_route('put','/static/departmentAddressBook','admin, supervisor, oio, oooz_head, oooz');
+            call add_route('patch','/static/departmentAddressBook','admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('get','/event', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get','/events', 'admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('get','/eventType', 'admin');
+            call add_route('put','/eventType', 'admin');
+            call add_route('patch','/eventType', 'admin');
+            call add_route('delete','/eventType', 'admin');
+            call add_route('get','/eventTypes', 'admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('get','/static/integrationConfig', 'admin');
+            call add_route('put','/static/integrationConfig', 'admin');
+
+            call add_route('get','/generateToken', 'admin');
+
+            call add_route('get','/static/managerRole', 'admin');
+            call add_route('put','/static/managerRole', 'admin');
+            call add_route('patch','/static/managerRole', 'admin');
+            call add_route('delete','/static/managerRole', 'admin');
+
+            call add_route('get','/manager', 'admin, supervisor, oooz_head');
+            call add_route('get','/managers', 'admin, supervisor, oooz_head');
+            call add_route('put','/manager', 'admin, supervisor, oooz_head');
+            call add_route('patch','/manager', 'admin, supervisor, oooz_head');
+            call add_route('delete','/manager', 'admin, supervisor, oooz_head');
+            call add_route('get','/manager/stat/today', 'admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('get','/managerAddresses', 'admin, supervisor, oooz_head');
+            call add_route('put','/managerAddressBook', 'admin, supervisor, oooz_head');
+            call add_route('patch','/managerAddressBook', 'admin, supervisor, oooz_head');
+
+            call add_route('get','/managerNotification', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get','/managerNotifications', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('put','/managerNotification', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('patch','/managerNotification', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('delete','/managerNotification', 'admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('put','/static/managerSubjects', 'admin, supervisor, oooz_head');
+
+            call add_route('get','/static/messageTemplate', 'admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('delete','/static/regionPhoneNumbers', 'admin');
+            call add_route('post','/static/regionPhoneNumbers/upload_file', 'admin');
+            call add_route('get','/static/regionPhoneNumbers', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get','/static/regionPhoneNumbers/ABC', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get','/static/regionPhoneNumbers/DEF', 'admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('get','/static/region', 'admin');
+            call add_route('put','/static/region', 'admin');
+            call add_route('patch','/static/region', 'admin');
+            call add_route('delete','/static/region', 'admin');
+            call add_route('get','/static/region/phone', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get','/static/regions', 'admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('get','/static/requestField', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('put','/static/requestField', 'admin, supervisor, oooz_head');
+            call add_route('delete','/static/requestField', 'admin, supervisor, oooz_head');
+
+            call add_route('delete','/requestReminder', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('put','/requestReminder', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('patch','/requestReminder/postpone', 'admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('get','/request', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('put','/request', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('patch','/request', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('delete','/request', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('post','/request/send_mail', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('patch','/request/changeStatus', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('put','/request/comment', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get','/request/allComments', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get','/search/requests', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('put','/requests/distribute', 'admin, supervisor, oooz_head');
+            call add_route('put','/requests/assign', 'admin, supervisor, oooz_head');
+
+
+            call add_route('get','/static/routeType', 'admin');
+            call add_route('put','/static/routeType', 'admin');
+            call add_route('patch','/static/routeType', 'admin');
+            call add_route('delete','/static/routeType', 'admin');
+
+            call add_route('get','/static/section', 'admin');
+            call add_route('put','/static/section', 'admin');
+            call add_route('patch','/static/section', 'admin');
+            call add_route('delete','/static/section', 'admin');
+            call add_route('get','/static/sections', 'admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('get','/static/service', 'admin');
+            call add_route('put','/static/service', 'admin');
+            call add_route('patch','/static/service', 'admin');
+            call add_route('delete','/static/service', 'admin');
+            call add_route('get','/static/services', 'admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('patch','/statusChange', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get','/statusChange/info', 'admin, supervisor, oooz_head');
+            call add_route('get','/statusChange/infoInInterval', 'admin, supervisor, oooz_head');
+            call add_route('get','/static/status', 'admin');
+            call add_route('put','/static/status', 'admin');
+            call add_route('patch','/static/status', 'admin');
+            call add_route('delete','/static/status', 'admin');
+            call add_route('get','/static/statuses', 'admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('get','/static/subject', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('put','/static/subject', 'admin');
+            call add_route('patch','/static/subject', 'admin');
+            call add_route('delete','/static/subject', 'admin');
+            call add_route('delete','/static/subSubject', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get', '/static/clientTypes', 'admin, supervisor, oio, oooz_head, oooz');
+
+            call add_route('get','/managerSchedule/all', 'admin, supervisor, oooz_head');
+            call add_route('put', '/managerSchedule/all/addWeekends', 'admin, supervisor, oooz_head');
+            call add_route('put', '/managerSchedule/all/addWorkdays', 'admin, supervisor, oooz_head');
+            call add_route('put', '/managerSchedule/edit', 'admin, supervisor, oooz_head');
+            call add_route('patch', '/manager/dateOfDismissal', 'admin, supervisor, oooz_head');
+        </sql>
+    </changeSet>
+    <changeSet id="3001.15" author="vborovok">
+        <sql>
+            call add_route('put', '/requests/reassign', 'admin, supervisor, oooz_head');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.16" author="vborovok">
+        <sql>
+            call add_route('patch', '/static/managerSubjects/exclude', 'admin');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.17" author="ustinov">
+        <sql>
+            call add_route('put', '/admission/comment', 'admin, supervisor, oio, oooz_head, oooz');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.18" author="ustinov">
+        <sql>
+            call add_route('patch', '/manager/stationInfo', 'admin, supervisor, oooz_head');
+            call add_route('get','/static/subSubject', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('put','/static/subject/editAccess', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('put','/static/mangerRole', 'admin');
+            call add_route('patch','/static/managerSubjects/exclude', 'admin');
+            call add_route('get','/search/names', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get','/search/surnames', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('delete','/static/eventType', 'admin');
+            call add_route('get','/static/eventType', 'admin');
+            call add_route('patch','/static/eventType', 'admin');
+            call add_route('put','/static/eventType', 'admin');
+            call add_route('get','/static/eventTypes', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('patch', '/static/requestField', 'admin');
+            call add_route('post', '/static/regionPhoneNumbers/upload_file', 'admin');
+            call add_route('get', '/static/regionPhoneNumbers', 'admin');
+            call add_route('delete', '/static/regionPhoneNumbers', 'admin');
+            call add_route('get', '/static/regionPhoneNumbers/DEF', 'admin');
+            call add_route('get', '/static/regionPhoneNumbers/ABC', 'admin');
+            call add_route('put', '/static/regionPhoneNumber/DEF', 'admin');
+            call add_route('put', '/static/regionPhoneNumber/ABC', 'admin');
+            call add_route('patch', '/static/regionPhoneNumber/DEF', 'admin');
+            call add_route('patch', '/static/regionPhoneNumber/ABC', 'admin');
+            call add_route('get', '/static/admission/event', 'admin');
+            call add_route('get', '/config', 'admin');
+            call add_route('put', '/config', 'admin');
+            call add_route('patch', '/config', 'admin');
+            call add_route('patch', '/telephony', 'admin');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.19" author="vborovok">
+        <sql>
+            call add_route('get', '/static/managerSubjects/excluded', 'admin, supervisor');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.20" author="ustinov">
+        <sql>
+            call add_route('get', '/statistics', 'admin, supervisor, oooz_head');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.21" author="ustinov">
+        <sql>
+            call add_route('get', '/static/regionPhoneNumber/uploaded_files', 'admin');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.22" author="dyesbay">
+        <sql>
+            call add_route('get', '/statistics/requests', 'admin, supervisor, oooz_head',true);
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.23" author="vborovok">
+        <sql>
+            call add_route('post', '/event/send', 'admin');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.24" author="ustinov">
+        <sql>
+            call add_route('get', '/managers/statistics', 'admin, supervisor, oooz_head');
+        </sql>
+    </changeSet>
+
+
+    <changeSet id="3001.25" author="ustinov">
+        <sql>
+            call add_route('get', '/statistics/requests/common', 'admin, supervisor, oooz_head' , true);
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.26" author="vborovok">
+        <sql>
+
+            call add_route('post', '/auth', '', true);
+            call add_route('post', '/clearCache', '', true);
+            call add_route('get', '/swagger-resources/**', '', true);
+            call add_route('get', '/swagger-ui.html', '', true);
+            call add_route('get', '/v2/api-docs', '', true);
+            call add_route('get', '/webjars/**', '', true);
+            call add_route('get', '/configs', 'admin');
+
+            call add_route('post', '/superUserPass', 'admin');
+
+            update routes set open = true where path = '/call';
+            update routes set open = true where path = '/jwt/getInfoFromToken';
+            update routes set open = true where path = '/jwt/generateToken';
+            update routes set open = true where path = '/statistics/requests';
+            update routes set open = true where path = '/event/send';
+            update routes set open = true where path = '/statusChange';
+            update routes set open = true where path = '/statusChange/info';
+            update routes set open = true where path = '/statusChange/infoInInterval';
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.27" author="ustinov">
+        <sql>
+            call add_route('delete', '/static/requestField/value', 'admin, supervisor, oooz_head');
+            call add_route('get', '/static/subjects', 'admin, supervisor, oooz_head');
+            call add_route('put', '/static/subSubject', 'admin, supervisor, oooz_head');
+            call add_route('delete', '/static/subSubject', 'admin, supervisor, oooz_head');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.28" author="ustinov">
+        <sql>
+            call add_route('get', '/managers/distribution_stat', 'admin, supervisor, oooz_head');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.29" author="ustinov">
+        <sql>
+            call add_route('post', '/static/regionPhoneNumbers/upload_file', 'admin, supervisor, oooz_head');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.30" author="ustinov">
+        <sql>
+            call add_route('patch', '/session', 'admin');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.31" author="ustinov">
+        <sql>
+            call add_route('patch', '/request/close', 'admin, supervisor, oooz_head, oooz');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3001.32" author="vborovok">
+        <sql>
+            call add_route('get', '/test/login', 'admin, supervisor, oooz_head', true);
+            call add_route('get', '/test/get', 'admin, supervisor, oooz_head', true);
+            call add_route('get', '/requestReminder', 'admin, supervisor, oio, oooz_head, oooz');
+            call add_route('get', '/requestReminder/getByDate', 'admin, supervisor, oio, oooz_head, oooz');
+
+        </sql>
+    </changeSet>
+</databaseChangeLog>

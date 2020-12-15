@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1005_create-tb-manager_roles.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1005.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="manager_roles"/>
+            </not>
+        </preConditions>
+        <createTable tableName="manager_roles">
+            <column name="code" type="varchar(20)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="disabled_on" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="manager_roles"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="1005.1" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM manager_roles WHERE
+                code = 'admin' </sqlCheck>
+        </preConditions>
+        <insert tableName="manager_roles">
+            <column name="code" value="admin"/>
+            <column name="name" value="администратор"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_roles">
+                <where>code = 'admin'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1005.2" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM manager_roles WHERE
+                code = 'oio' </sqlCheck>
+        </preConditions>
+        <insert tableName="manager_roles">
+            <column name="code" value="oio"/>
+            <column name="name" value="оператор"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_roles">
+                <where>code = 'oio'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1005.3" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM manager_roles WHERE
+                code = 'supervisor' </sqlCheck>
+        </preConditions>
+        <insert tableName="manager_roles">
+            <column name="code" value="supervisor"/>
+            <column name="name" value="супервайзер"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_roles">
+                <where>code = 'supervisor'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1005.4" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM manager_roles WHERE
+                code = 'oooz_head' </sqlCheck>
+        </preConditions>
+        <insert tableName="manager_roles">
+            <column name="code" value="oooz_head"/>
+            <column name="name" value="руководитель"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_roles">
+                <where>code = 'oooz_head'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet id="1005.5" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM manager_roles WHERE
+                code = 'oooz' </sqlCheck>
+        </preConditions>
+        <insert tableName="manager_roles">
+            <column name="code" value="oooz"/>
+            <column name="name" value="сотрудник оооз"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_roles">
+                <where>code = 'oooz'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1005.6" author="ustinov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(*) from manager_roles where code='oooz'</sqlCheck>
+        </preConditions>
+        <insert tableName="manager_roles">
+            <column name="code" value="oooz"/>
+            <column name="name" value="Сотрудник ОООЗ"/>
+        </insert>
+        <rollback>
+            <delete tableName="manager_roles">
+                <where>code = 'oooz'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

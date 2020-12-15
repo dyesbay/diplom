@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="1035_create-tb-manager_status_info.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1035.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="manager_status_info"/>
+            </not>
+        </preConditions>
+        <createTable tableName="manager_status_info">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="manager" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_manager" references="managers(id)"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="current_status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="info" type="varchar(250)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="manager_status_info"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

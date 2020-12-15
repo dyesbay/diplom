@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="2029_create-tb-region_phone_numbers.xml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet id="2029.0" author="Maksim Ustinov">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="region_phone_numbers" />
+			</not>
+		</preConditions>
+		<createTable tableName="region_phone_numbers">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true"/>
+			</column>
+			<column name="code" type="smallint">
+				<constraints nullable="false"/>
+			</column>
+			<column name="d_from" type="int">
+				<constraints nullable="false"/>
+			</column>
+			<column name="d_to" type="int">
+				<constraints nullable="false"/>
+			</column>
+			<column name="region" type="bigint">
+				<constraints nullable="true" foreignKeyName="fk_region"
+					references="regions(id)" />
+			</column>
+		</createTable>
+		<rollback>
+			<dropTable tableName="region_phone_numbers" />
+		</rollback>
+	</changeSet>
+
+</databaseChangeLog>

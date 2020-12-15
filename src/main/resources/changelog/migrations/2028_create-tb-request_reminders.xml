@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="2028_create-tb-request_reminders.xml"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1028.0" author="vborovok">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="request_reminders"/>
+            </not>
+        </preConditions>
+        <createTable tableName="request_reminders">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="created_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="signal_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="disabled_on" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="checked" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="body" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="request" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_request" references="requests(id)"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="request_reminders"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
